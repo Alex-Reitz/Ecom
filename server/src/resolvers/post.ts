@@ -1,11 +1,11 @@
-import { Arg, Ctx, Query, Resolver, Mutation } from "type-graphql";
+import { Resolver, Query, Ctx, Arg, Mutation } from "type-graphql";
 import { Post } from "../entities/Post";
-import { MyContext } from "src/types";
+import { MyContext } from "../types";
 
 @Resolver()
 export class PostResolver {
   @Query(() => [Post])
-  posts(@Ctx() { em }: MyContext): Promise<Post[]> {
+  async posts(@Ctx() { em }: MyContext): Promise<Post[]> {
     return em.find(Post, {});
   }
 
@@ -16,7 +16,7 @@ export class PostResolver {
 
   @Mutation(() => Post)
   async createPost(
-    @Arg("title", () => String) title: string,
+    @Arg("title") title: string,
     @Ctx() { em }: MyContext
   ): Promise<Post> {
     const post = em.create(Post, { title });
@@ -44,7 +44,6 @@ export class PostResolver {
   @Mutation(() => Boolean)
   async deletePost(
     @Arg("id") id: number,
-    @Arg("title", () => String, { nullable: true }) title: string,
     @Ctx() { em }: MyContext
   ): Promise<boolean> {
     await em.nativeDelete(Post, { id });

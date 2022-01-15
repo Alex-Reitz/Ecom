@@ -8,12 +8,10 @@ import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
-import { MyContext } from "./types";
-import cors from "cors";
-
-import * as redis from "redis";
+const redis = require("ioredis");
 import session from "express-session";
 import connectRedis from "connect-redis";
+import cors from "cors";
 
 const main = async () => {
   const orm = await MikroORM.init(microConfig);
@@ -23,6 +21,7 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient();
+
   app.use(
     cors({
       origin: "http://localhost:3000",
@@ -34,16 +33,16 @@ const main = async () => {
       name: "qid",
       store: new RedisStore({
         client: redisClient,
-        disableTTL: true,
+        disableTouch: true,
       }),
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
-        sameSite: "lax",
-        secure: __prod__,
+        sameSite: "lax", // csrf
+        secure: __prod__, // cookie only works in https
       },
       saveUninitialized: false,
-      secret: "jfklds",
+      secret: "qowiueojwojfalksdjoqiwueo",
       resave: false,
     })
   );
@@ -53,20 +52,17 @@ const main = async () => {
       resolvers: [HelloResolver, PostResolver, UserResolver],
       validate: false,
     }),
-    context: ({ req, res }) => ({
-      em: orm.em,
-      req,
-      res,
-    }),
+    context: ({ req, res }) => ({ em: orm.em, req, res }),
   });
   await apolloServer.start();
+
   apolloServer.applyMiddleware({
     app,
     cors: false,
   });
 
   app.listen(4000, () => {
-    console.log("server starting at port 4000");
+    console.log("server started on localhost:4000");
   });
 };
 

@@ -16,7 +16,7 @@ exports.PostResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Post_1 = require("../entities/Post");
 let PostResolver = class PostResolver {
-    posts({ em }) {
+    async posts({ em }) {
         return em.find(Post_1.Post, {});
     }
     post(id, { em }) {
@@ -38,7 +38,7 @@ let PostResolver = class PostResolver {
         }
         return post;
     }
-    async deletePost(id, title, { em }) {
+    async deletePost(id, { em }) {
         await em.nativeDelete(Post_1.Post, { id });
         return true;
     }
@@ -60,7 +60,7 @@ __decorate([
 ], PostResolver.prototype, "post", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => Post_1.Post),
-    __param(0, (0, type_graphql_1.Arg)("title", () => String)),
+    __param(0, (0, type_graphql_1.Arg)("title")),
     __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
@@ -78,10 +78,9 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Mutation)(() => Boolean),
     __param(0, (0, type_graphql_1.Arg)("id")),
-    __param(1, (0, type_graphql_1.Arg)("title", () => String, { nullable: true })),
-    __param(2, (0, type_graphql_1.Ctx)()),
+    __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, Object]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "deletePost", null);
 PostResolver = __decorate([

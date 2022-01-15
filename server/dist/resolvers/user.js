@@ -77,12 +77,12 @@ let UserResolver = class UserResolver {
                 ],
             };
         }
-        if (options.password.length <= 3) {
+        if (options.password.length <= 2) {
             return {
                 errors: [
                     {
                         field: "password",
-                        message: "length must be greater than 3",
+                        message: "length must be greater than 2",
                     },
                 ],
             };
@@ -97,14 +97,13 @@ let UserResolver = class UserResolver {
                 username: options.username,
                 password: hashedPassword,
                 created_at: new Date(),
-                update_at: new Date(),
+                updated_at: new Date(),
             })
                 .returning("*");
             user = result[0];
         }
         catch (err) {
-            console.log(err);
-            if (err.code === "23505" || err.detail.includes("already exists")) {
+            if (err.code === "23505") {
                 return {
                     errors: [
                         {
@@ -115,12 +114,11 @@ let UserResolver = class UserResolver {
                 };
             }
         }
-        console.log("I am user", user);
         req.session.userId = user.id;
         return { user };
     }
     async login(options, { em, req }) {
-        const user = await em.findOneOrFail(User_1.User, { username: options.username });
+        const user = await em.findOne(User_1.User, { username: options.username });
         if (!user) {
             return {
                 errors: [

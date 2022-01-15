@@ -1,14 +1,14 @@
 import {
-  Ctx,
-  Field,
-  InputType,
-  Mutation,
   Resolver,
+  Mutation,
   Arg,
+  InputType,
+  Field,
+  Ctx,
   ObjectType,
   Query,
 } from "type-graphql";
-import { MyContext } from "src/types";
+import { MyContext } from "../types";
 import { User } from "../entities/User";
 import argon2 from "argon2";
 import { EntityManager } from "@mikro-orm/postgresql";
@@ -41,11 +41,12 @@ class UserResponse {
 @Resolver()
 export class UserResolver {
   @Query(() => User, { nullable: true })
-  //You are not logged in
   async me(@Ctx() { req, em }: MyContext) {
+    // you are not logged in
     if (!req.session.userId) {
       return null;
     }
+
     const user = await em.findOne(User, { id: req.session.userId });
     return user;
   }
@@ -66,12 +67,12 @@ export class UserResolver {
       };
     }
 
-    if (options.password.length <= 3) {
+    if (options.password.length <= 2) {
       return {
         errors: [
           {
             field: "password",
-            message: "length must be greater than 3",
+            message: "length must be greater than 2",
           },
         ],
       };
@@ -87,15 +88,14 @@ export class UserResolver {
           username: options.username,
           password: hashedPassword,
           created_at: new Date(),
-          update_at: new Date(),
+          updated_at: new Date(),
         })
         .returning("*");
       user = result[0];
     } catch (err) {
-      console.log(err);
-
-      if (err.code === "23505" || err.detail.includes("already exists")) {
-        //duplicate username
+      //|| err.detail.includes("already exists")) {
+      // duplicate username error
+      if (err.code === "23505") {
         return {
           errors: [
             {
@@ -106,9 +106,10 @@ export class UserResolver {
         };
       }
     }
-    console.log("I am user", user);
 
-    //Auto login user after they register
+    // store user id session
+    // this will set a cookie on the user
+    // keep them logged in
     req.session.userId = user.id;
 
     return { user };
@@ -119,7 +120,7 @@ export class UserResolver {
     @Arg("options") options: UsernamePasswordInput,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
-    const user = await em.findOneOrFail(User, { username: options.username });
+    const user = await em.findOne(User, { username: options.username });
     if (!user) {
       return {
         errors: [
@@ -142,7 +143,7 @@ export class UserResolver {
       };
     }
 
-    req.session!.userId = user.id;
+    req.session.userId = user.id;
 
     return {
       user,
