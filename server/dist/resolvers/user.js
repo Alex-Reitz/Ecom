@@ -16,13 +16,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
-const argon2_1 = __importDefault(require("argon2"));
-const sendEmail_1 = require("../utils/sendEmail");
 const type_graphql_1 = require("type-graphql");
-const constants_1 = require("../constants");
 const User_1 = require("../entities/User");
-const validateRegister_1 = require("../utils/validateRegister");
+const argon2_1 = __importDefault(require("argon2"));
+const constants_1 = require("../constants");
 const UsernamePasswordInput_1 = require("./UsernamePasswordInput");
+const validateRegister_1 = require("../utils/validateRegister");
+const sendEmail_1 = require("../utils/sendEmail");
 const uuid_1 = require("uuid");
 let FieldError = class FieldError {
 };
@@ -74,20 +74,20 @@ let UserResolver = class UserResolver {
                 ],
             };
         }
-        const user = em.findOne(User_1.User, { id: parseInt(userId) });
+        const user = await em.findOne(User_1.User, { id: parseInt(userId) });
         if (!user) {
             return {
                 errors: [
                     {
                         field: "token",
-                        message: "User no longer exists",
+                        message: "user no longer exists",
                     },
                 ],
             };
         }
         user.password = await argon2_1.default.hash(newPassword);
         await em.persistAndFlush(user);
-        redis.del(key);
+        await redis.del(key);
         req.session.userId = user.id;
         return { user };
     }
@@ -97,8 +97,8 @@ let UserResolver = class UserResolver {
             return true;
         }
         const token = (0, uuid_1.v4)();
-        redis.set(constants_1.FORGET_PASSWORD_PREFIX + token, user.id, "ex", 1000 * 60 * 60 * 24 * 3);
-        await (0, sendEmail_1.sendEmail)(email, `<a href="localhost:3000/change-password/${token}">Reset password</a>`);
+        await redis.set(constants_1.FORGET_PASSWORD_PREFIX + token, user.id, "ex", 1000 * 60 * 60 * 24 * 3);
+        await (0, sendEmail_1.sendEmail)(email, `<a href="http://localhost:3000/change-password/${token}">reset password</a>`);
         return true;
     }
     async me({ req, em }) {
@@ -121,8 +121,8 @@ let UserResolver = class UserResolver {
                 .getKnexQuery()
                 .insert({
                 username: options.username,
-                password: hashedPassword,
                 email: options.email,
+                password: hashedPassword,
                 created_at: new Date(),
                 updated_at: new Date(),
             })

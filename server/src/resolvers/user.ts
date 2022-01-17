@@ -1,20 +1,20 @@
-import { EntityManager } from "@mikro-orm/postgresql";
-import argon2 from "argon2";
-import { sendEmail } from "../utils/sendEmail";
 import {
-  Arg,
-  Ctx,
-  Field,
+  Resolver,
   Mutation,
+  Arg,
+  Field,
+  Ctx,
   ObjectType,
   Query,
-  Resolver,
 } from "type-graphql";
-import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../constants";
-import { User } from "../entities/User";
 import { MyContext } from "../types";
-import { validateRegister } from "../utils/validateRegister";
+import { User } from "../entities/User";
+import argon2 from "argon2";
+import { EntityManager } from "@mikro-orm/postgresql";
+import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../constants";
 import { UsernamePasswordInput } from "./UsernamePasswordInput";
+import { validateRegister } from "../utils/validateRegister";
+import { sendEmail } from "../utils/sendEmail";
 import { v4 } from "uuid";
 
 @ObjectType()
@@ -52,6 +52,7 @@ export class UserResolver {
         ],
       };
     }
+
     const key = FORGET_PASSWORD_PREFIX + token;
     const userId = await redis.get(key);
     if (!userId) {
@@ -65,13 +66,14 @@ export class UserResolver {
       };
     }
 
-    const user = em.findOne(User, { id: parseInt(userId) });
+    const user = await em.findOne(User, { id: parseInt(userId) });
+
     if (!user) {
       return {
         errors: [
           {
             field: "token",
-            message: "User no longer exists",
+            message: "user no longer exists",
           },
         ],
       };
@@ -79,8 +81,12 @@ export class UserResolver {
 
     user.password = await argon2.hash(newPassword);
     await em.persistAndFlush(user);
-    redis.del(key);
+
+    await redis.del(key);
+
+    // log in user after change password
     req.session.userId = user.id;
+
     return { user };
   }
 
@@ -91,20 +97,24 @@ export class UserResolver {
   ) {
     const user = await em.findOne(User, { email });
     if (!user) {
-      //email is not in the DB
+      // the email is not in the db
       return true;
     }
+
     const token = v4();
-    redis.set(
+
+    await redis.set(
       FORGET_PASSWORD_PREFIX + token,
       user.id,
       "ex",
       1000 * 60 * 60 * 24 * 3
-    );
+    ); // 3 days
+
     await sendEmail(
       email,
-      `<a href="localhost:3000/change-password/${token}">Reset password</a>`
+      `<a href="http://localhost:3000/change-password/${token}">reset password</a>`
     );
+
     return true;
   }
 
@@ -128,6 +138,7 @@ export class UserResolver {
     if (errors) {
       return { errors };
     }
+
     const hashedPassword = await argon2.hash(options.password);
     let user;
     try {
@@ -136,8 +147,8 @@ export class UserResolver {
         .getKnexQuery()
         .insert({
           username: options.username,
-          password: hashedPassword,
           email: options.email,
+          password: hashedPassword,
           created_at: new Date(),
           updated_at: new Date(),
         })
@@ -217,6 +228,7 @@ export class UserResolver {
           resolve(false);
           return;
         }
+
         resolve(true);
       })
     );
