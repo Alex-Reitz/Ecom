@@ -14,9 +14,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostResolver = void 0;
 const type_graphql_1 = require("type-graphql");
-const typeorm_1 = require("typeorm");
 const Post_1 = require("../entities/Post");
 const isAuth_1 = require("../middleware/isAuth");
+const typeorm_1 = require("typeorm");
 let PostInput = class PostInput {
 };
 __decorate([
@@ -31,6 +31,9 @@ PostInput = __decorate([
     (0, type_graphql_1.InputType)()
 ], PostInput);
 let PostResolver = class PostResolver {
+    textSnippet(post) {
+        return post.text.slice(0, 50);
+    }
     async posts(limit, cursor) {
         const realLimit = Math.min(50, limit);
         const qb = (0, typeorm_1.getConnection)()
@@ -39,7 +42,9 @@ let PostResolver = class PostResolver {
             .orderBy('"createdAt"', "DESC")
             .take(realLimit);
         if (cursor) {
-            qb.where('"createdAt" < :cursor', { cursor: parseInt(cursor) });
+            qb.where('"createdAt" < :cursor', {
+                cursor: new Date(parseInt(cursor)),
+            });
         }
         return qb.getMany();
     }
@@ -64,6 +69,13 @@ let PostResolver = class PostResolver {
         return true;
     }
 };
+__decorate([
+    (0, type_graphql_1.FieldResolver)(() => String),
+    __param(0, (0, type_graphql_1.Root)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Post_1.Post]),
+    __metadata("design:returntype", void 0)
+], PostResolver.prototype, "textSnippet", null);
 __decorate([
     (0, type_graphql_1.Query)(() => [Post_1.Post]),
     __param(0, (0, type_graphql_1.Arg)("limit", () => type_graphql_1.Int)),
@@ -104,7 +116,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "deletePost", null);
 PostResolver = __decorate([
-    (0, type_graphql_1.Resolver)()
+    (0, type_graphql_1.Resolver)(Post_1.Post)
 ], PostResolver);
 exports.PostResolver = PostResolver;
 //# sourceMappingURL=post.js.map

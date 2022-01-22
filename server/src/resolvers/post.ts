@@ -1,18 +1,20 @@
 import {
-  Arg,
-  Ctx,
-  Field,
-  InputType,
-  Int,
-  Mutation,
-  Query,
   Resolver,
+  Query,
+  Arg,
+  Mutation,
+  InputType,
+  Field,
+  Ctx,
   UseMiddleware,
+  Int,
+  FieldResolver,
+  Root,
 } from "type-graphql";
-import { getConnection } from "typeorm";
 import { Post } from "../entities/Post";
-import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
+import { isAuth } from "../middleware/isAuth";
+import { getConnection } from "typeorm";
 
 @InputType()
 class PostInput {
@@ -22,8 +24,13 @@ class PostInput {
   text: string;
 }
 
-@Resolver()
+@Resolver(Post)
 export class PostResolver {
+  @FieldResolver(() => String)
+  textSnippet(@Root() post: Post) {
+    return post.text.slice(0, 50);
+  }
+
   @Query(() => [Post])
   async posts(
     @Arg("limit", () => Int) limit: number,
@@ -35,9 +42,13 @@ export class PostResolver {
       .createQueryBuilder("p")
       .orderBy('"createdAt"', "DESC")
       .take(realLimit);
+
     if (cursor) {
-      qb.where('"createdAt" < :cursor', { cursor: parseInt(cursor) });
+      qb.where('"createdAt" < :cursor', {
+        cursor: new Date(parseInt(cursor)),
+      });
     }
+
     return qb.getMany();
   }
 
