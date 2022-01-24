@@ -54,6 +54,8 @@ export class PostResolver {
 
     const updoot = await Updoot.findOne({ where: { postId, userId } });
 
+    // the user has voted on the post before
+    // and they are changing their vote
     if (updoot && updoot.value !== realValue) {
       await getConnection().transaction(async (tm) => {
         await tm.query(
@@ -75,6 +77,7 @@ export class PostResolver {
         );
       });
     } else if (!updoot) {
+      // has never voted before
       await getConnection().transaction(async (tm) => {
         await tm.query(
           `
@@ -112,6 +115,7 @@ export class PostResolver {
     if (req.session.userId) {
       replacements.push(req.session.userId);
     }
+
     let cursorIdx = 3;
     if (cursor) {
       replacements.push(new Date(parseInt(cursor)));
@@ -149,8 +153,8 @@ export class PostResolver {
   }
 
   @Query(() => Post, { nullable: true })
-  post(@Arg("id") id: number): Promise<Post | undefined> {
-    return Post.findOne(id);
+  post(@Arg("id", () => Int) id: number): Promise<Post | undefined> {
+    return Post.findOne(id, { relations: ["creator"] });
   }
 
   @Mutation(() => Post)
@@ -181,8 +185,24 @@ export class PostResolver {
   }
 
   @Mutation(() => Boolean)
-  async deletePost(@Arg("id") id: number): Promise<boolean> {
-    await Post.delete(id);
+  @UseMiddleware(isAuth)
+  async deletePost(
+    @Arg("id", () => Int) id: number,
+    @Ctx() { req }: MyContext
+  ): Promise<boolean> {
+    // not cascade way
+    // const post = await Post.findOne(id);
+    // if (!post) {
+    //   return false;
+    // }
+    // if (post.creatorId !== req.session.userId) {
+    //   throw new Error("not authorized");
+    // }
+
+    // await Updoot.delete({ postId: id });
+    // await Post.delete({ id });
+
+    await Post.delete({ id, creatorId: req.session.userId });
     return true;
   }
 }
