@@ -96,7 +96,7 @@ let PostResolver = class PostResolver {
         }
         return true;
     }
-    async posts(limit, cursor, { req }) {
+    async posts(limit, cursor) {
         const realLimit = Math.min(50, limit);
         const reaLimitPlusOne = realLimit + 1;
         const replacements = [reaLimitPlusOne];
@@ -176,9 +176,8 @@ __decorate([
     (0, type_graphql_1.Query)(() => PaginatedPosts),
     __param(0, (0, type_graphql_1.Arg)("limit", () => type_graphql_1.Int)),
     __param(1, (0, type_graphql_1.Arg)("cursor", () => String, { nullable: true })),
-    __param(2, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object, Function]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "posts", null);
 __decorate([
