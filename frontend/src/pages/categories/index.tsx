@@ -1,9 +1,10 @@
 import React from "react";
+import { Layout } from "../../components/Layout";
 
 interface indexProps {}
 
 const Categories: React.FC<indexProps> = ({}) => {
-  return <div>Hello from categories</div>;
+  return <Layout variant="small">Hello from categories</Layout>;
 };
 
 export default Categories;

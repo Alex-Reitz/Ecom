@@ -38,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
     );
   } else {
     body = (
-      <Flex align="center">
+      <Flex align="center" background="white" borderRadius={20}>
         <Input zIndex={0} placeholder="Search Products" />
       </Flex>
     );
@@ -46,17 +46,19 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
 
   return (
     <>
-      <Flex zIndex={1} position="sticky" top={0} bg="tomato" p={2}>
+      <Flex zIndex={1} position="sticky" bg="#000" p={2}>
         <Flex flex={1} m="auto" align="center" maxW="95%">
           <NextLink href="/">
             <Link>
-              <Heading fontStyle={"italic"}>KeyBoard Warrior</Heading>
+              <Heading color="white" fontStyle={"italic"}>
+                KeyBoard
+              </Heading>
             </Link>
           </NextLink>
           <Box ml={"auto"}>{body}</Box>
         </Flex>
       </Flex>
-      <Flex zIndex={1} position="sticky" top={0} bg="gray" p={3}>
+      <Flex zIndex={1} position="sticky" top={0} bg="#fff" p={3}>
         <Flex
           justify="space-between"
           flex={1}
@@ -64,35 +66,35 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
           align="center"
           maxW="50%"
         >
-          <Box>
+          <Box fontSize={"1.5rem"}>
             <NextLink href="/">
               <Link>
                 <Text>Home</Text>
               </Link>
             </NextLink>
           </Box>
-          <Box>
+          <Box fontSize={"1.5rem"}>
             <NextLink href="/products">
               <Link>
                 <Text>Products</Text>
               </Link>
             </NextLink>
           </Box>
-          <Box>
+          <Box fontSize={"1.5rem"}>
             <NextLink href="/categories">
               <Link>
                 <Text>Categories</Text>
               </Link>
             </NextLink>
           </Box>
-          <Box>
+          <Box fontSize={"1.5rem"}>
             <NextLink href="/brands">
               <Link>
                 <Text>Brands</Text>
               </Link>
             </NextLink>
           </Box>
-          <Box>
+          <Box fontSize={"1.5rem"}>
             <NextLink href="/cart">
               <Link>
                 <Text>Cart</Text>
@@ -105,8 +107,10 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
                 await logout();
                 router.reload();
               }}
+              fontSize={"1.2rem"}
               isLoading={logoutFetching}
-              variant="link"
+              variant="outline"
+              color="#000"
             >
               Logout
             </Button>
