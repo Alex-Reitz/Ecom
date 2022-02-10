@@ -1,35 +1,30 @@
-import "reflect-metadata";
-import { __prod__, COOKIE_NAME } from "./constants";
-import express from "express";
 import { ApolloServer } from "apollo-server-express";
-import { buildSchema } from "type-graphql";
-import { HelloResolver } from "./resolvers/hello";
-import { PostResolver } from "./resolvers/post";
-import { UserResolver } from "./resolvers/user";
-import Redis from "ioredis";
-import session from "express-session";
 import connectRedis from "connect-redis";
 import cors from "cors";
-import { createConnection } from "typeorm";
-import { Post } from "./entities/Post";
-import { User } from "./entities/User";
+import express from "express";
+import session from "express-session";
+import Redis from "ioredis";
 import path from "path";
-import { Updoot } from "./entities/Updoot";
+import "reflect-metadata";
+import { buildSchema } from "type-graphql";
+import { createConnection } from "typeorm";
+import { COOKIE_NAME, __prod__ } from "./constants";
+import { User } from "./entities/User";
+import { HelloResolver } from "./resolvers/hello";
+import { UserResolver } from "./resolvers/user";
 import { createUserLoader } from "./utils/createUserLoader";
-import { createUpdootLoader } from "./utils/createUpdootLoader";
 
 const main = async () => {
   const conn = await createConnection({
     type: "postgres",
-    database: "lireddit2",
+    database: "ecomStore",
     username: "postgres",
     password: "postgres",
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Post, User, Updoot],
+    entities: [User],
   });
-  //
   await conn.runMigrations();
   const app = express();
 
@@ -62,7 +57,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, PostResolver, UserResolver],
+      resolvers: [HelloResolver, UserResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({
@@ -70,7 +65,6 @@ const main = async () => {
       res,
       redis,
       userLoader: createUserLoader(),
-      updootLoader: createUpdootLoader(),
     }),
   });
   await apolloServer.start();
