@@ -6,7 +6,12 @@ import {
   UpdateDateColumn,
   Column,
   BaseEntity,
+  OneToMany,
+  OneToOne,
 } from "typeorm";
+import { Product_Category } from "./Product_Category";
+import { Discount } from "./Discount";
+import { Product_Inventory } from "./Product_Inventory";
 
 @ObjectType()
 @Entity()
@@ -28,20 +33,23 @@ export class Products extends BaseEntity {
   SKU!: string;
 
   @Field()
-  @Column({ unique: true })
-  Category_id!: number;
+  @OneToMany(() => Product_Category, (product_category) => product_category.id)
+  category_id: Product_Category;
 
   @Field()
-  @Column({ unique: true })
-  Inventory_id!: number;
+  @OneToOne(
+    () => Product_Inventory,
+    (product_inventory) => product_inventory.id
+  )
+  inventory_id: Product_Inventory;
 
   @Field()
   @Column({ unique: false })
   Price!: number;
 
   @Field()
-  @Column({ unique: true })
-  Discount_id!: number;
+  @OneToMany(() => Discount, (discount) => discount.id)
+  discount_id: Discount;
 
   @Field(() => String)
   @CreateDateColumn()

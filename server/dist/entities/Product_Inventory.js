@@ -9,34 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Products = void 0;
+exports.Product_Inventory = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-let Products = class Products extends typeorm_1.BaseEntity {
+const Products_1 = require("./Products");
+let Product_Inventory = class Product_Inventory extends typeorm_1.BaseEntity {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
-], Products.prototype, "id", void 0);
+    (0, typeorm_1.OneToOne)(() => Products_1.Products, (products) => products.inventory_id),
+    __metadata("design:type", Products_1.Products)
+], Product_Inventory.prototype, "id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", Number)
-], Products.prototype, "Quantity", void 0);
+], Product_Inventory.prototype, "Quantity", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
-], Products.prototype, "createdAt", void 0);
+], Product_Inventory.prototype, "createdAt", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
-], Products.prototype, "updatedAt", void 0);
-Products = __decorate([
+], Product_Inventory.prototype, "updatedAt", void 0);
+Product_Inventory = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()
-], Products);
-exports.Products = Products;
+], Product_Inventory);
+exports.Product_Inventory = Product_Inventory;
 //# sourceMappingURL=Product_Inventory.js.map

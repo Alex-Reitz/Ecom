@@ -9,39 +9,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Products = void 0;
+exports.Product_Category = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-let Products = class Products extends typeorm_1.BaseEntity {
+const Products_1 = require("./Products");
+let Product_Category = class Product_Category extends typeorm_1.BaseEntity {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
-], Products.prototype, "id", void 0);
+    (0, typeorm_1.ManyToOne)(() => Products_1.Products, (products) => products.category_id),
+    __metadata("design:type", Products_1.Products)
+], Product_Category.prototype, "id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
-], Products.prototype, "Name", void 0);
+], Product_Category.prototype, "Name", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: false }),
     __metadata("design:type", String)
-], Products.prototype, "Description", void 0);
+], Product_Category.prototype, "Description", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
-], Products.prototype, "createdAt", void 0);
+], Product_Category.prototype, "createdAt", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
-], Products.prototype, "updatedAt", void 0);
-Products = __decorate([
+], Product_Category.prototype, "updatedAt", void 0);
+Product_Category = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()
-], Products);
-exports.Products = Products;
+], Product_Category);
+exports.Product_Category = Product_Category;
 //# sourceMappingURL=Product_Category.js.map

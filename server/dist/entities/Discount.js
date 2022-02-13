@@ -9,49 +9,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Products = void 0;
+exports.Discount = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-let Products = class Products extends typeorm_1.BaseEntity {
+const Products_1 = require("./Products");
+let Discount = class Discount extends typeorm_1.BaseEntity {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
-], Products.prototype, "id", void 0);
+    (0, typeorm_1.ManyToOne)(() => Products_1.Products, (products) => products.discount_id),
+    __metadata("design:type", Products_1.Products)
+], Discount.prototype, "id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
-], Products.prototype, "Name", void 0);
+], Discount.prototype, "Name", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: false }),
     __metadata("design:type", String)
-], Products.prototype, "Description", void 0);
+], Discount.prototype, "Description", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", Number)
-], Products.prototype, "Discount_percent", void 0);
+], Discount.prototype, "Discount_percent", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", Boolean)
-], Products.prototype, "Active", void 0);
+], Discount.prototype, "Active", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
-], Products.prototype, "createdAt", void 0);
+], Discount.prototype, "createdAt", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
-], Products.prototype, "updatedAt", void 0);
-Products = __decorate([
+], Discount.prototype, "updatedAt", void 0);
+Discount = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()
-], Products);
-exports.Products = Products;
+], Discount);
+exports.Discount = Discount;
 //# sourceMappingURL=Discount.js.map

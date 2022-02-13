@@ -1,19 +1,20 @@
 import { ObjectType, Field } from "type-graphql";
 import {
   Entity,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   Column,
   BaseEntity,
+  OneToOne,
 } from "typeorm";
+import { Products } from "./Products";
 
 @ObjectType()
 @Entity()
-export class Products extends BaseEntity {
+export class Product_Inventory extends BaseEntity {
   @Field()
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @OneToOne(() => Products, (products) => products.inventory_id)
+  id: Products;
 
   @Field()
   @Column({ unique: true })

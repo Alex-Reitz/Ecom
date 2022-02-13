@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Products = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
+const Product_Category_1 = require("./Product_Category");
+const Discount_1 = require("./Discount");
+const Product_Inventory_1 = require("./Product_Inventory");
 let Products = class Products extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -36,14 +39,14 @@ __decorate([
 ], Products.prototype, "SKU", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)({ unique: true }),
-    __metadata("design:type", Number)
-], Products.prototype, "Category_id", void 0);
+    (0, typeorm_1.OneToMany)(() => Product_Category_1.Product_Category, (product_category) => product_category.id),
+    __metadata("design:type", Product_Category_1.Product_Category)
+], Products.prototype, "category_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)({ unique: true }),
-    __metadata("design:type", Number)
-], Products.prototype, "Inventory_id", void 0);
+    (0, typeorm_1.OneToOne)(() => Product_Inventory_1.Product_Inventory, (product_inventory) => product_inventory.id),
+    __metadata("design:type", Product_Inventory_1.Product_Inventory)
+], Products.prototype, "inventory_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: false }),
@@ -51,9 +54,9 @@ __decorate([
 ], Products.prototype, "Price", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)({ unique: true }),
-    __metadata("design:type", Number)
-], Products.prototype, "Discount_id", void 0);
+    (0, typeorm_1.OneToMany)(() => Discount_1.Discount, (discount) => discount.id),
+    __metadata("design:type", Discount_1.Discount)
+], Products.prototype, "discount_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),
