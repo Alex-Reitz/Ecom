@@ -6,13 +6,14 @@ import {
   Column,
   BaseEntity,
   OneToOne,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Products } from "./Products";
 
 @ObjectType()
 @Entity()
 export class Product_Inventory extends BaseEntity {
-  @Field()
+  @PrimaryGeneratedColumn()
   @OneToOne(() => Products, (products) => products.inventory_id)
   id: Products;
 

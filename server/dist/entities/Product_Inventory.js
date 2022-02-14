@@ -16,7 +16,7 @@ const Products_1 = require("./Products");
 let Product_Inventory = class Product_Inventory extends typeorm_1.BaseEntity {
 };
 __decorate([
-    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     (0, typeorm_1.OneToOne)(() => Products_1.Products, (products) => products.inventory_id),
     __metadata("design:type", Products_1.Products)
 ], Product_Inventory.prototype, "id", void 0);

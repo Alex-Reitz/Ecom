@@ -6,13 +6,14 @@ import {
   Column,
   BaseEntity,
   ManyToOne,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Products } from "./Products";
 
 @ObjectType()
 @Entity()
 export class Product_Category extends BaseEntity {
-  @Field()
+  @PrimaryGeneratedColumn()
   @ManyToOne(() => Products, (products) => products.category_id)
   id: Products;
 

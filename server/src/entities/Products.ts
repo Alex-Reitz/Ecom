@@ -32,11 +32,9 @@ export class Products extends BaseEntity {
   @Column({ unique: true })
   SKU!: string;
 
-  @Field()
   @OneToMany(() => Product_Category, (product_category) => product_category.id)
   category_id: Product_Category;
 
-  @Field()
   @OneToOne(
     () => Product_Inventory,
     (product_inventory) => product_inventory.id
@@ -47,7 +45,6 @@ export class Products extends BaseEntity {
   @Column({ unique: false })
   Price!: number;
 
-  @Field()
   @OneToMany(() => Discount, (discount) => discount.id)
   discount_id: Discount;
 
