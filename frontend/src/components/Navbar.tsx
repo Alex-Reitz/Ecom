@@ -20,6 +20,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
   const [{ data, fetching }] = useMeQuery({ pause: isServer() });
   let body = null;
+  console.log(data);
 
   if (fetching) {
     body = null;
@@ -98,6 +99,13 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
             <NextLink href="/cart">
               <Link>
                 <Text>Cart</Text>
+              </Link>
+            </NextLink>
+          </Box>
+          <Box fontSize={"1.5rem"}>
+            <NextLink href="/Admin">
+              <Link>
+                <Text>Admin</Text>
               </Link>
             </NextLink>
           </Box>
