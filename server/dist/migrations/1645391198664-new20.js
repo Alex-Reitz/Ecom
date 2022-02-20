@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Setup1644800121505 = void 0;
-class Setup1644800121505 {
+exports.new201645391198664 = void 0;
+class new201645391198664 {
     constructor() {
-        this.name = 'Setup1644800121505';
+        this.name = 'new201645391198664';
     }
     async up(queryRunner) {
         await queryRunner.query(`CREATE TABLE "product_category" ("id" SERIAL NOT NULL, "Name" character varying NOT NULL, "Description" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "idId" integer, CONSTRAINT "UQ_23f702bea94e5adcb912d41a149" UNIQUE ("Name"), CONSTRAINT "PK_0dce9bc93c2d2c399982d04bef1" PRIMARY KEY ("id"))`);
@@ -22,5 +22,5 @@ class Setup1644800121505 {
         await queryRunner.query(`DROP TABLE "product_category"`);
     }
 }
-exports.Setup1644800121505 = Setup1644800121505;
-//# sourceMappingURL=1644800121505-Setup.js.map
+exports.new201645391198664 = new201645391198664;
+//# sourceMappingURL=1645391198664-new20.js.map

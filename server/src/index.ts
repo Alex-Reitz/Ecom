@@ -17,7 +17,7 @@ import { createUserLoader } from "./utils/createUserLoader";
 const main = async () => {
   const conn = await createConnection({
     type: "postgres",
-    database: "ecomStore",
+    database: "ecomStore1",
     username: "postgres",
     password: "postgres",
     logging: true,

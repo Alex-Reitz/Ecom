@@ -21,7 +21,7 @@ const createUserLoader_1 = require("./utils/createUserLoader");
 const main = async () => {
     const conn = await (0, typeorm_1.createConnection)({
         type: "postgres",
-        database: "ecomStore",
+        database: "ecomStore1",
         username: "postgres",
         password: "postgres",
         logging: true,
