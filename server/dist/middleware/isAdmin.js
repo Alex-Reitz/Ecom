@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isAdmin = void 0;
 const isAdmin = ({ context }, next) => {
-    console.log(context);
     if (context.req.session.isAdmin === "false") {
         throw new Error("not an admin");
     }
