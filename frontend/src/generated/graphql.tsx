@@ -63,6 +63,7 @@ export type User = {
   createdAt: Scalars['String'];
   email: Scalars['String'];
   id: Scalars['Float'];
+  isAdmin: Scalars['Boolean'];
   updatedAt: Scalars['String'];
   username: Scalars['String'];
 };
@@ -123,7 +124,7 @@ export type RegisterMutation = { __typename?: 'Mutation', register: { __typename
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, email: string, createdAt: string, updatedAt: string } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, isAdmin: boolean } | null | undefined };
 
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
@@ -204,9 +205,7 @@ export const MeDocument = gql`
   me {
     id
     username
-    email
-    createdAt
-    updatedAt
+    isAdmin
   }
 }
     `;

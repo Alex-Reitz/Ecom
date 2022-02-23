@@ -2,8 +2,6 @@ query Me {
   me {
     id
     username
-    email
-    createdAt
-    updatedAt
+    isAdmin
   }
 }

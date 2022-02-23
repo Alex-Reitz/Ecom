@@ -239,7 +239,6 @@ export class UserResolver {
           resolve(false);
           return;
         }
-
         resolve(true);
       })
     );

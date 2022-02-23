@@ -34,7 +34,8 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.Column)("boolean", { default: true }),
+    (0, type_graphql_1.Field)(() => Boolean),
+    (0, typeorm_1.Column)({ default: true }),
     __metadata("design:type", Boolean)
 ], User.prototype, "isAdmin", void 0);
 __decorate([

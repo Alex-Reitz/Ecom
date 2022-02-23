@@ -26,8 +26,9 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
-  @Column("boolean", { default: true })
-  isAdmin!: Boolean;
+  @Field(() => Boolean)
+  @Column({ default: true })
+  isAdmin: boolean;
 
   @Field(() => String)
   @CreateDateColumn()
