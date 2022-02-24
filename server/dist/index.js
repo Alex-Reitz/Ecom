@@ -18,6 +18,7 @@ const User_1 = require("./entities/User");
 const hello_1 = require("./resolvers/hello");
 const user_1 = require("./resolvers/user");
 const createUserLoader_1 = require("./utils/createUserLoader");
+const product_1 = require("./resolvers/product");
 const main = async () => {
     const conn = await (0, typeorm_1.createConnection)({
         type: "postgres",
@@ -55,7 +56,7 @@ const main = async () => {
     }));
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: await (0, type_graphql_1.buildSchema)({
-            resolvers: [hello_1.HelloResolver, user_1.UserResolver],
+            resolvers: [hello_1.HelloResolver, user_1.UserResolver, product_1.productResolver],
             validate: false,
         }),
         context: ({ req, res }) => ({

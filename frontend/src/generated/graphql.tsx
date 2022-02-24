@@ -52,8 +52,20 @@ export type MutationRegisterArgs = {
   options: UsernamePasswordInput;
 };
 
+export type Products = {
+  __typename?: 'Products';
+  Description: Scalars['String'];
+  Name: Scalars['String'];
+  Price: Scalars['Float'];
+  SKU: Scalars['String'];
+  createdAt: Scalars['String'];
+  id: Scalars['Float'];
+  updatedAt: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  allProducts?: Maybe<Products>;
   hello: Scalars['String'];
   me?: Maybe<User>;
 };
@@ -125,6 +137,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, isAdmin: boolean } | null | undefined };
+
+export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_1_Query = { __typename?: 'Query', allProducts?: { __typename?: 'Products', Name: string, Description: string } | null | undefined };
 
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
@@ -212,4 +229,16 @@ export const MeDocument = gql`
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const Document = gql`
+    {
+  allProducts {
+    Name
+    Description
+  }
+}
+    `;
+
+export function useQuery(options?: Omit<Urql.UseQueryArgs<QueryVariables>, 'query'>) {
+  return Urql.useQuery<Query>({ query: Document, ...options });
 };
