@@ -1,79 +1,51 @@
+import { Box, Button } from "@chakra-ui/react";
+import { Form, Formik } from "formik";
+import { withUrqlClient } from "next-urql";
 import React from "react";
 import { Layout } from "../../components/Layout";
-import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Input,
-  Button,
-  Heading,
-} from "@chakra-ui/react";
-import { Field, Form, Formik } from "formik";
+import { useRouter } from "next/router";
+import { InputField } from "../../components/InputField";
 
 interface indexProps {}
 //Form that takes in information about a product, name, description, sku, category, inventory, price
 //Only admin can add a new product, make middleware to check isAdmin
-const Admin: React.FC<indexProps> = ({}) => {
-  function validateName(value) {
-    let error;
-    if (!value) {
-      error = "Name is required";
-    } else if (value.toLowerCase() !== "naruto") {
-      error = "Jeez! You're not a fan 😱";
-    }
-    return error;
-  }
 
+const Admin: React.FC<{}> = ({}) => {
+  const router = useRouter();
+  //const [addProduct] = useAddProductMutation();
   return (
     <Layout variant="small">
-      <Heading>Add a Product</Heading>
       <Formik
-        initialValues={{}}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }, 1000);
+        initialValues={{ name: "", description: "", price: "" }}
+        onSubmit={async (values) => {
+          const { errors } = await addProduct({
+            variables: { input: values },
+          });
+          if (!errors) {
+            router.push("/");
+          }
         }}
       >
-        {(props) => (
+        {({ isSubmitting }) => (
           <Form>
-            <Field name="product_name" validate={validateName}>
-              {({ field, form }) => (
-                <FormControl isInvalid={form.errors.name && form.touched.name}>
-                  <FormLabel htmlFor="product_name">Product Name</FormLabel>
-                  <Input
-                    {...field}
-                    id="product_name"
-                    placeholder="Product Name"
-                  />
-                  <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="description" validate={validateName}>
-              {({ field, form }) => (
-                <FormControl isInvalid={form.errors.name && form.touched.name}>
-                  <FormLabel htmlFor="name">Description</FormLabel>
-                  <Input
-                    {...field}
-                    id="description"
-                    placeholder="description"
-                  />
-                  <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
+            <InputField name="name" placeholder="Name" label="Name" />
+            <Box mt={4}>
+              <InputField
+                textarea
+                name="description"
+                placeholder="description..."
+                label="Description"
+              />
+              <InputField name="price" placeholder="Price" label="Price" />
+            </Box>
             <Button
               mt={4}
-              colorScheme="teal"
-              isLoading={props.isSubmitting}
               type="submit"
+              isLoading={isSubmitting}
+              variantColor="teal"
             >
-              Submit
+              Add Product
             </Button>
           </Form>
         )}

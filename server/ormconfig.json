@@ -5,6 +5,7 @@
   "username": "postgres",
   "password": "postgres",
   "database": "ecomStore1",
+  "synchronize": true,
   "entities": ["dist/entities/*.js"],
   "migrations": ["dist/migrations/*.js"]
 }

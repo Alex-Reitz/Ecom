@@ -13,11 +13,32 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productResolver = void 0;
+const isAdmin_1 = require("../middleware/isAdmin");
 const type_graphql_1 = require("type-graphql");
 const Products_1 = require("../entities/Products");
+let productInput = class productInput {
+};
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], productInput.prototype, "name", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], productInput.prototype, "description", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], productInput.prototype, "price", void 0);
+productInput = __decorate([
+    (0, type_graphql_1.InputType)()
+], productInput);
 let productResolver = class productResolver {
     allProducts({ req }) {
-        return Products_1.Products.findOne(req.session.userId);
+        return Products_1.Products.find(req.session.userId);
+    }
+    async addProduct(input) {
+        return Products_1.Products.create(Object.assign({}, input)).save();
     }
 };
 __decorate([
@@ -27,6 +48,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], productResolver.prototype, "allProducts", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => Products_1.Products),
+    (0, type_graphql_1.UseMiddleware)(isAdmin_1.isAdmin),
+    __param(0, (0, type_graphql_1.Arg)("input")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [productInput]),
+    __metadata("design:returntype", Promise)
+], productResolver.prototype, "addProduct", null);
 productResolver = __decorate([
     (0, type_graphql_1.Resolver)(Products_1.Products)
 ], productResolver);
