@@ -25,7 +25,7 @@ export class Products extends BaseEntity {
 
   @Field()
   @Column({ unique: false })
-  Price!: number;
+  price!: number;
 
   @Field(() => String)
   @CreateDateColumn()

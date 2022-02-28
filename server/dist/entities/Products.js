@@ -33,7 +33,7 @@ __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: false }),
     __metadata("design:type", Number)
-], Products.prototype, "Price", void 0);
+], Products.prototype, "price", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),

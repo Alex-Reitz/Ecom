@@ -1,6 +1,6 @@
-{
+query AllProducts {
   allProducts {
-    Name
-    Description
+    name
+    description
   }
 }

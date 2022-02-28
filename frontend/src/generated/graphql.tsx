@@ -23,11 +23,17 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addProduct: Products;
   changePassword: UserResponse;
   forgotPassword: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+};
+
+
+export type MutationAddProductArgs = {
+  input: ProductInput;
 };
 
 
@@ -54,12 +60,11 @@ export type MutationRegisterArgs = {
 
 export type Products = {
   __typename?: 'Products';
-  Description: Scalars['String'];
-  Name: Scalars['String'];
-  Price: Scalars['Float'];
-  SKU: Scalars['String'];
   createdAt: Scalars['String'];
-  id: Scalars['Float'];
+  description: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  price: Scalars['Float'];
   updatedAt: Scalars['String'];
 };
 
@@ -92,11 +97,24 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
+export type ProductInput = {
+  description: Scalars['String'];
+  name: Scalars['String'];
+  price: Scalars['Float'];
+};
+
 export type RegularErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
 
 export type RegularUserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, username: string } | null | undefined };
+
+export type AddProductMutationVariables = Exact<{
+  input: ProductInput;
+}>;
+
+
+export type AddProductMutation = { __typename?: 'Mutation', addProduct: { __typename?: 'Products', id: string, createdAt: string, updatedAt: string, name: string, description: string, price: number } };
 
 export type ChangePasswordMutationVariables = Exact<{
   token: Scalars['String'];
@@ -138,10 +156,10 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, isAdmin: boolean } | null | undefined };
 
-export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+export type AllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_1_Query = { __typename?: 'Query', allProducts?: { __typename?: 'Products', Name: string, Description: string } | null | undefined };
+export type AllProductsQuery = { __typename?: 'Query', allProducts?: { __typename?: 'Products', name: string, description: string } | null | undefined };
 
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
@@ -166,6 +184,22 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const AddProductDocument = gql`
+    mutation AddProduct($input: productInput!) {
+  addProduct(input: $input) {
+    id
+    createdAt
+    updatedAt
+    name
+    description
+    price
+  }
+}
+    `;
+
+export function useAddProductMutation() {
+  return Urql.useMutation<AddProductMutation, AddProductMutationVariables>(AddProductDocument);
+};
 export const ChangePasswordDocument = gql`
     mutation ChangePassword($token: String!, $newPassword: String!) {
   changePassword(token: $token, newPassword: $newPassword) {
@@ -230,15 +264,15 @@ export const MeDocument = gql`
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
 };
-export const Document = gql`
-    {
+export const AllProductsDocument = gql`
+    query AllProducts {
   allProducts {
-    Name
-    Description
+    name
+    description
   }
 }
     `;
 
-export function useQuery(options?: Omit<Urql.UseQueryArgs<QueryVariables>, 'query'>) {
-  return Urql.useQuery<Query>({ query: Document, ...options });
+export function useAllProductsQuery(options?: Omit<Urql.UseQueryArgs<AllProductsQueryVariables>, 'query'>) {
+  return Urql.useQuery<AllProductsQuery>({ query: AllProductsDocument, ...options });
 };

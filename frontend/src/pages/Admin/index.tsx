@@ -6,6 +6,7 @@ import { Layout } from "../../components/Layout";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { useRouter } from "next/router";
 import { InputField } from "../../components/InputField";
+import { useAddProductMutation } from "../../generated/graphql";
 
 interface indexProps {}
 //Form that takes in information about a product, name, description, sku, category, inventory, price
@@ -13,7 +14,7 @@ interface indexProps {}
 
 const Admin: React.FC<{}> = ({}) => {
   const router = useRouter();
-  //const [addProduct] = useAddProductMutation();
+  const [, addProduct] = useAddProductMutation();
   return (
     <Layout variant="small">
       <Formik
@@ -43,7 +44,7 @@ const Admin: React.FC<{}> = ({}) => {
               mt={4}
               type="submit"
               isLoading={isSubmitting}
-              variantColor="teal"
+              colorScheme={"teal"}
             >
               Add Product
             </Button>

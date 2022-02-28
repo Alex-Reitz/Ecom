@@ -1,10 +1,10 @@
-mutation AddProduct($input: ProductInput!) {
+mutation AddProduct($input: productInput!) {
   addProduct(input: $input) {
     id
     createdAt
     updatedAt
-    Name
-    Description
-    Price
+    name
+    description
+    price
   }
 }
