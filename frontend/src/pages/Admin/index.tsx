@@ -20,12 +20,8 @@ const Admin: React.FC<{}> = ({}) => {
       <Formik
         initialValues={{ name: "", description: "", price: "" }}
         onSubmit={async (values) => {
-          const { errors } = await addProduct({
-            variables: { input: values },
-          });
-          if (!errors) {
-            router.push("/");
-          }
+          console.log(values);
+          const { errors } = addProduct({});
         }}
       >
         {({ isSubmitting }) => (

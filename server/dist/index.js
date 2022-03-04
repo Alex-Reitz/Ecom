@@ -19,6 +19,7 @@ const hello_1 = require("./resolvers/hello");
 const user_1 = require("./resolvers/user");
 const createUserLoader_1 = require("./utils/createUserLoader");
 const product_1 = require("./resolvers/product");
+const Products_1 = require("./entities/Products");
 const main = async () => {
     const conn = await (0, typeorm_1.createConnection)({
         type: "postgres",
@@ -28,14 +29,13 @@ const main = async () => {
         logging: true,
         synchronize: true,
         migrations: [path_1.default.join(__dirname, "./migrations/*")],
-        entities: [User_1.User],
+        entities: [User_1.User, Products_1.Products],
     });
     await conn.runMigrations();
     const app = (0, express_1.default)();
     const RedisStore = (0, connect_redis_1.default)(express_session_1.default);
     const redis = new ioredis_1.default();
     app.use((0, cors_1.default)({
-        origin: "http://localhost:3000",
         credentials: true,
     }));
     app.use((0, express_session_1.default)({

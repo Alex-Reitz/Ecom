@@ -14,6 +14,7 @@ import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
 import { createUserLoader } from "./utils/createUserLoader";
 import { productResolver } from "./resolvers/product";
+import { Products } from "./entities/Products";
 
 const main = async () => {
   const conn = await createConnection({
@@ -24,7 +25,7 @@ const main = async () => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [User],
+    entities: [User, Products],
   });
   await conn.runMigrations();
   const app = express();
@@ -33,7 +34,6 @@ const main = async () => {
   const redis = new Redis();
   app.use(
     cors({
-      origin: "http://localhost:3000",
       credentials: true,
     })
   );
