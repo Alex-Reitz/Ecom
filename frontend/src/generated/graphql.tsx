@@ -58,6 +58,12 @@ export type MutationRegisterArgs = {
   options: UsernamePasswordInput;
 };
 
+export type ProductInput = {
+  description: Scalars['String'];
+  name: Scalars['String'];
+  price: Scalars['Float'];
+};
+
 export type Products = {
   __typename?: 'Products';
   createdAt: Scalars['String'];
@@ -97,12 +103,6 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
-export type ProductInput = {
-  description: Scalars['String'];
-  name: Scalars['String'];
-  price: Scalars['Float'];
-};
-
 export type RegularErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
@@ -114,7 +114,7 @@ export type AddProductMutationVariables = Exact<{
 }>;
 
 
-export type AddProductMutation = { __typename?: 'Mutation', addProduct: { __typename?: 'Products', id: string, createdAt: string, updatedAt: string, name: string, description: string, price: number } };
+export type AddProductMutation = { __typename?: 'Mutation', addProduct: { __typename?: 'Products', name: string, description: string, price: number } };
 
 export type ChangePasswordMutationVariables = Exact<{
   token: Scalars['String'];
@@ -185,11 +185,8 @@ export const RegularUserResponseFragmentDoc = gql`
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
 export const AddProductDocument = gql`
-    mutation AddProduct($input: productInput!) {
+    mutation addProduct($input: ProductInput!) {
   addProduct(input: $input) {
-    id
-    createdAt
-    updatedAt
     name
     description
     price

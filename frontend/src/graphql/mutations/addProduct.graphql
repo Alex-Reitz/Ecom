@@ -1,8 +1,5 @@
-mutation AddProduct($input: productInput!) {
+mutation addProduct($input: ProductInput!) {
   addProduct(input: $input) {
-    id
-    createdAt
-    updatedAt
     name
     description
     price

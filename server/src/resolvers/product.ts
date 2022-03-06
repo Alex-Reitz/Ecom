@@ -2,7 +2,7 @@ import { Arg, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
 import { Products } from "../entities/Products";
 
 @InputType()
-class productInput {
+class ProductInput {
   @Field()
   name: string;
   @Field()
@@ -15,16 +15,14 @@ class productInput {
 export class productResolver {
   @Query(() => Products, { nullable: true })
   async allProducts() {
-    const products = await Products.find();
-    console.log(products);
-    return products;
+    return await Products.find();
   }
 
   @Mutation(() => Products)
-  async addProduct(@Arg("input") input: productInput): Promise<Products> {
-    const product = Products.create({
+  async addProduct(@Arg("input") input: ProductInput): Promise<Products> {
+    console.log(input);
+    return Products.create({
       ...input,
     }).save();
-    return product;
   }
 }

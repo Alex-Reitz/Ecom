@@ -33,11 +33,20 @@ const main = async () => {
   const RedisStore = connectRedis(session);
   const redis = new Redis();
 
+  app.use((req, res, next) => {
+    res.append("Access-Control-Allow-Origin", ["*"]);
+    res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+    res.append("Access-Control-Allow-Headers", "Content-Type");
+    next();
+  });
+
   app.use(
     cors({
+      origin: "http://localhost:3000",
       credentials: true,
     })
   );
+
   app.use(
     session({
       name: COOKIE_NAME,
@@ -70,10 +79,7 @@ const main = async () => {
     }),
   });
   await apolloServer.start();
-  apolloServer.applyMiddleware({
-    app,
-    cors: false,
-  });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   app.listen(4000, () => {
     console.log("server started on localhost:4000");

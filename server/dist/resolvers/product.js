@@ -15,32 +15,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.productResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Products_1 = require("../entities/Products");
-let productInput = class productInput {
+let ProductInput = class ProductInput {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
-], productInput.prototype, "name", void 0);
+], ProductInput.prototype, "name", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
-], productInput.prototype, "description", void 0);
+], ProductInput.prototype, "description", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", Number)
-], productInput.prototype, "price", void 0);
-productInput = __decorate([
+], ProductInput.prototype, "price", void 0);
+ProductInput = __decorate([
     (0, type_graphql_1.InputType)()
-], productInput);
+], ProductInput);
 let productResolver = class productResolver {
     async allProducts() {
-        const products = await Products_1.Products.find();
-        console.log(products);
-        return products;
+        return await Products_1.Products.find();
     }
     async addProduct(input) {
-        const product = Products_1.Products.create(Object.assign({}, input)).save();
-        return product;
+        console.log(input);
+        return Products_1.Products.create(Object.assign({}, input)).save();
     }
 };
 __decorate([
@@ -53,7 +51,7 @@ __decorate([
     (0, type_graphql_1.Mutation)(() => Products_1.Products),
     __param(0, (0, type_graphql_1.Arg)("input")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [productInput]),
+    __metadata("design:paramtypes", [ProductInput]),
     __metadata("design:returntype", Promise)
 ], productResolver.prototype, "addProduct", null);
 productResolver = __decorate([
