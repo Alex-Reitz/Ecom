@@ -32,6 +32,7 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
   const redis = new Redis();
+
   app.use(
     cors({
       credentials: true,

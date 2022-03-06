@@ -1,16 +1,5 @@
-import { isAdmin } from "../middleware/isAdmin";
-import {
-  Ctx,
-  Query,
-  Resolver,
-  Mutation,
-  Arg,
-  UseMiddleware,
-  InputType,
-  Field,
-} from "type-graphql";
+import { Arg, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
 import { Products } from "../entities/Products";
-import { MyContext } from "../types";
 
 @InputType()
 class productInput {
@@ -25,15 +14,17 @@ class productInput {
 @Resolver(Products)
 export class productResolver {
   @Query(() => Products, { nullable: true })
-  allProducts(@Ctx() { req }: MyContext) {
-    return Products.find(req.session.userId);
+  async allProducts() {
+    const products = await Products.find();
+    console.log(products);
+    return products;
   }
 
   @Mutation(() => Products)
-  @UseMiddleware(isAdmin)
   async addProduct(@Arg("input") input: productInput): Promise<Products> {
-    return Products.create({
+    const product = Products.create({
       ...input,
     }).save();
+    return product;
   }
 }

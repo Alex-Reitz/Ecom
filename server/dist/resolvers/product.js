@@ -13,7 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productResolver = void 0;
-const isAdmin_1 = require("../middleware/isAdmin");
 const type_graphql_1 = require("type-graphql");
 const Products_1 = require("../entities/Products");
 let productInput = class productInput {
@@ -34,23 +33,24 @@ productInput = __decorate([
     (0, type_graphql_1.InputType)()
 ], productInput);
 let productResolver = class productResolver {
-    allProducts({ req }) {
-        return Products_1.Products.find(req.session.userId);
+    async allProducts() {
+        const products = await Products_1.Products.find();
+        console.log(products);
+        return products;
     }
     async addProduct(input) {
-        return Products_1.Products.create(Object.assign({}, input)).save();
+        const product = Products_1.Products.create(Object.assign({}, input)).save();
+        return product;
     }
 };
 __decorate([
     (0, type_graphql_1.Query)(() => Products_1.Products, { nullable: true }),
-    __param(0, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
 ], productResolver.prototype, "allProducts", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => Products_1.Products),
-    (0, type_graphql_1.UseMiddleware)(isAdmin_1.isAdmin),
     __param(0, (0, type_graphql_1.Arg)("input")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [productInput]),
