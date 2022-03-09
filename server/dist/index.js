@@ -35,14 +35,7 @@ const main = async () => {
     const app = (0, express_1.default)();
     const RedisStore = (0, connect_redis_1.default)(express_session_1.default);
     const redis = new ioredis_1.default();
-    app.use((req, res, next) => {
-        res.append("Access-Control-Allow-Origin", ["*"]);
-        res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-        res.append("Access-Control-Allow-Headers", "Content-Type");
-        next();
-    });
     app.use((0, cors_1.default)({
-        origin: "http://localhost:3000",
         credentials: true,
     }));
     app.use((0, express_session_1.default)({

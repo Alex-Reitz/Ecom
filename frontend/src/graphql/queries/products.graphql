@@ -2,5 +2,6 @@ query AllProducts {
   allProducts {
     name
     description
+    price
   }
 }
