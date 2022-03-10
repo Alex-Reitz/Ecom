@@ -42,7 +42,7 @@ let productResolver = class productResolver {
     }
 };
 __decorate([
-    (0, type_graphql_1.Query)(() => Products_1.Products, { nullable: true }),
+    (0, type_graphql_1.Query)(() => [Products_1.Products], { nullable: true }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

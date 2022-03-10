@@ -15,6 +15,7 @@ interface indexProps {}
 const Admin: React.FC<{}> = ({}) => {
   const router = useRouter();
   const [, addProduct] = useAddProductMutation();
+
   return (
     <Layout variant="small">
       <Formik

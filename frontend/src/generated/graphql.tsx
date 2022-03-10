@@ -76,7 +76,7 @@ export type Products = {
 
 export type Query = {
   __typename?: 'Query';
-  allProducts?: Maybe<Products>;
+  allProducts?: Maybe<Array<Products>>;
   hello: Scalars['String'];
   me?: Maybe<User>;
 };
@@ -159,7 +159,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: nu
 export type AllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllProductsQuery = { __typename?: 'Query', allProducts?: { __typename?: 'Products', name: string, description: string } | null | undefined };
+export type AllProductsQuery = { __typename?: 'Query', allProducts?: Array<{ __typename?: 'Products', name: string, description: string, price: number }> | null | undefined };
 
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
@@ -266,6 +266,7 @@ export const AllProductsDocument = gql`
   allProducts {
     name
     description
+    price
   }
 }
     `;

@@ -13,7 +13,7 @@ class ProductInput {
 
 @Resolver(Products)
 export class productResolver {
-  @Query(() => Products, { nullable: true })
+  @Query(() => [Products], { nullable: true })
   async allProducts() {
     return await Products.find();
   }
