@@ -7,10 +7,17 @@ import { useAllProductsQuery } from "../../generated/graphql";
 interface indexProps {}
 
 const Products: React.FC<indexProps> = ({}) => {
-  const [all, allProducts] = useAllProductsQuery();
-  console.log(all, allProducts);
+  const [{ data }] = useAllProductsQuery();
 
-  return <Layout variant="small">Hello from Products</Layout>;
+  return (
+    <Layout variant="small">
+      {!data ? (
+        <div>Loading...</div>
+      ) : (
+        data.allProducts?.map((p) => <div key={p.id}>{p.name}</div>)
+      )}
+    </Layout>
+  );
 };
 
 export default withUrqlClient(createUrqlClient, { ssr: true })(Products);

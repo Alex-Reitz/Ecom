@@ -1,7 +1,10 @@
 query AllProducts {
   allProducts {
+    id
     name
     description
     price
+    createdAt
+    updatedAt
   }
 }

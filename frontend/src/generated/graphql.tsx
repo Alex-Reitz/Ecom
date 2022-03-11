@@ -159,7 +159,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: nu
 export type AllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllProductsQuery = { __typename?: 'Query', allProducts?: Array<{ __typename?: 'Products', name: string, description: string, price: number }> | null | undefined };
+export type AllProductsQuery = { __typename?: 'Query', allProducts?: Array<{ __typename?: 'Products', id: string, name: string, description: string, price: number, createdAt: string, updatedAt: string }> | null | undefined };
 
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
@@ -264,9 +264,12 @@ export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, '
 export const AllProductsDocument = gql`
     query AllProducts {
   allProducts {
+    id
     name
     description
     price
+    createdAt
+    updatedAt
   }
 }
     `;
