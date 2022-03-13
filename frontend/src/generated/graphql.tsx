@@ -61,7 +61,7 @@ export type MutationRegisterArgs = {
 export type ProductInput = {
   description: Scalars['String'];
   name: Scalars['String'];
-  price: Scalars['Float'];
+  price: Scalars['String'];
 };
 
 export type Products = {
