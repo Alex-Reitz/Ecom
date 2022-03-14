@@ -18,7 +18,7 @@ const Index = () => {
       </Box>
       <Box display={"flex"} justifyContent="center" width="100vw">
         <Text fontSize={22} mt={8}>
-          Top Rated Keyboards
+          Best Selling Keyboards
         </Text>
       </Box>
     </Layout>
