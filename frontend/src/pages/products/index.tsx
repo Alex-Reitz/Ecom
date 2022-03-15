@@ -34,7 +34,7 @@ const Products: React.FC<indexProps> = ({}) => {
                 <Box
                   p={6}
                   maxW={"330px"}
-                  bg={useColorModeValue("white", "blue.400")}
+                  bg={useColorModeValue("white", "gray.200")}
                   boxShadow={"2xl"}
                   rounded={"lg"}
                   zIndex={-1}

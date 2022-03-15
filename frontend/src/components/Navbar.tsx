@@ -91,15 +91,15 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
               transition="all 0.2s"
               borderRadius="md"
               borderWidth="1px"
-              _hover={{ bg: "gray.400" }}
-              _expanded={{ bg: "gray.400" }}
+              _hover={{ bg: "gray.200" }}
+              _expanded={{ bg: "gray.200" }}
               _focus={{ boxShadow: "outline" }}
               fontSize="1rem"
               borderColor="#000"
             >
               Categories <ChevronDownIcon />
             </MenuButton>
-            <MenuList bg="gray.400" p={0}>
+            <MenuList bg="gray.200" p={0}>
               <MenuItem borderRadius="md" _hover={{ bg: "#fff" }}>
                 Wired
               </MenuItem>
@@ -117,15 +117,15 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
               transition="all 0.2s"
               borderRadius="md"
               borderWidth="1px"
-              _hover={{ bg: "gray.400" }}
-              _expanded={{ bg: "gray.400" }}
+              _hover={{ bg: "gray.200" }}
+              _expanded={{ bg: "gray.200" }}
               _focus={{ boxShadow: "outline" }}
               fontSize="1rem"
               borderColor="#000"
             >
               Brands <ChevronDownIcon />
             </MenuButton>
-            <MenuList bg="gray.400" p={0}>
+            <MenuList bg="gray.200" p={0}>
               <MenuItem borderRadius="md" _hover={{ bg: "#fff" }}>
                 Keys+
               </MenuItem>

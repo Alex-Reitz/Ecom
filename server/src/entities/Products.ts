@@ -4,9 +4,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Product_Categories } from "./Product_Categories";
 
 @ObjectType()
 @Entity()
@@ -26,6 +28,13 @@ export class Products extends BaseEntity {
   @Field()
   @Column({ unique: false })
   price!: number;
+
+  @Field()
+  @ManyToOne(
+    () => Product_Categories,
+    (product_categories) => product_categories.product_id
+  )
+  product_categories: Product_Categories;
 
   @Field(() => String)
   @CreateDateColumn()

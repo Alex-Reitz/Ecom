@@ -30,6 +30,7 @@ const Admin: React.FC<{}> = ({}) => {
             },
           });
           console.log(response);
+          router.push("/");
         }}
       >
         {({ isSubmitting }) => (
