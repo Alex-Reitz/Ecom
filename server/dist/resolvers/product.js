@@ -27,6 +27,10 @@ __decorate([
 ], ProductInput.prototype, "description", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], ProductInput.prototype, "category", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
     __metadata("design:type", Number)
 ], ProductInput.prototype, "price", void 0);
 ProductInput = __decorate([

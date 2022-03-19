@@ -15,6 +15,8 @@ import { UserResolver } from "./resolvers/user";
 import { createUserLoader } from "./utils/createUserLoader";
 import { productResolver } from "./resolvers/product";
 import { Products } from "./entities/Products";
+import { Product_Category } from "./entities/Product_Category";
+import { Category } from "./entities/Category";
 
 const main = async () => {
   const conn = await createConnection({
@@ -25,7 +27,7 @@ const main = async () => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [User, Products],
+    entities: [User, Products, Product_Category, Category],
   });
   await conn.runMigrations();
   const app = express();

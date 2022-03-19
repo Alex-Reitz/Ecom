@@ -2,6 +2,7 @@ mutation addProduct($input: ProductInput!) {
   addProduct(input: $input) {
     name
     description
+    product_categories
     price
   }
 }

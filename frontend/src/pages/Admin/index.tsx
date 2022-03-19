@@ -19,7 +19,7 @@ const Admin: React.FC<{}> = ({}) => {
   return (
     <Layout variant="small">
       <Formik
-        initialValues={{ name: "", description: "", price: 0 }}
+        initialValues={{ name: "", description: "", price: 0, category: "" }}
         onSubmit={async (values) => {
           console.log(values);
           const response = await addProduct({
@@ -27,6 +27,7 @@ const Admin: React.FC<{}> = ({}) => {
               name: values.name,
               description: values.description,
               price: parseInt(values.price),
+              category: values.category,
             },
           });
           console.log(response);
@@ -42,6 +43,11 @@ const Admin: React.FC<{}> = ({}) => {
                 name="description"
                 placeholder="description..."
                 label="Description"
+              />
+              <InputField
+                name="category"
+                placeholder="category"
+                label="Category"
               />
               <InputField name="price" label="Price" />
             </Box>

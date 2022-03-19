@@ -8,14 +8,18 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Product_Categories } from "./Product_Categories";
+import { Product_Category } from "./Product_Category";
 
 @ObjectType()
 @Entity()
 export class Products extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
-  id!: number;
+  @ManyToOne(
+    () => Product_Category,
+    (product_category) => product_category.product_id
+  )
+  product_category: Product_Category;
 
   @Field()
   @Column({ unique: true })
@@ -28,13 +32,6 @@ export class Products extends BaseEntity {
   @Field()
   @Column({ unique: false })
   price!: number;
-
-  @Field()
-  @ManyToOne(
-    () => Product_Categories,
-    (product_categories) => product_categories.product_id
-  )
-  product_categories: Product_Categories;
 
   @Field(() => String)
   @CreateDateColumn()

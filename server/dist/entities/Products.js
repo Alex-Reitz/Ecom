@@ -12,14 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Products = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const Product_Categories_1 = require("./Product_Categories");
+const Product_Category_1 = require("./Product_Category");
 let Products = class Products extends typeorm_1.BaseEntity {
 };
 __decorate([
     (0, type_graphql_1.Field)(() => type_graphql_1.ID),
     (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
-], Products.prototype, "id", void 0);
+    (0, typeorm_1.ManyToOne)(() => Product_Category_1.Product_Category, (product_category) => product_category.product_id),
+    __metadata("design:type", Product_Category_1.Product_Category)
+], Products.prototype, "product_category", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: true }),
@@ -35,11 +36,6 @@ __decorate([
     (0, typeorm_1.Column)({ unique: false }),
     __metadata("design:type", Number)
 ], Products.prototype, "price", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.ManyToOne)(() => Product_Categories_1.Product_Categories, (product_categories) => product_categories.product_id),
-    __metadata("design:type", Product_Categories_1.Product_Categories)
-], Products.prototype, "product_categories", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),

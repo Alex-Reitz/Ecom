@@ -20,6 +20,8 @@ const user_1 = require("./resolvers/user");
 const createUserLoader_1 = require("./utils/createUserLoader");
 const product_1 = require("./resolvers/product");
 const Products_1 = require("./entities/Products");
+const Product_Category_1 = require("./entities/Product_Category");
+const Category_1 = require("./entities/Category");
 const main = async () => {
     const conn = await (0, typeorm_1.createConnection)({
         type: "postgres",
@@ -29,7 +31,7 @@ const main = async () => {
         logging: true,
         synchronize: true,
         migrations: [path_1.default.join(__dirname, "./migrations/*")],
-        entities: [User_1.User, Products_1.Products],
+        entities: [User_1.User, Products_1.Products, Product_Category_1.Product_Category, Category_1.Category],
     });
     await conn.runMigrations();
     const app = (0, express_1.default)();
