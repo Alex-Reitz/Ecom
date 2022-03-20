@@ -12,15 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Category = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const Product_Category_1 = require("./Product_Category");
+const Products_1 = require("./Products");
 let Category = class Category extends typeorm_1.BaseEntity {
 };
 __decorate([
     (0, type_graphql_1.Field)(() => type_graphql_1.ID),
     (0, typeorm_1.PrimaryGeneratedColumn)(),
-    (0, typeorm_1.OneToMany)(() => Product_Category_1.Product_Category, (product_category) => product_category.category_id),
-    __metadata("design:type", Category)
-], Category.prototype, "category_id", void 0);
+    (0, typeorm_1.OneToMany)(() => Products_1.Products, (products) => products.category),
+    __metadata("design:type", Products_1.Products)
+], Category.prototype, "ID", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: false }),

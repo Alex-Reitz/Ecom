@@ -6,18 +6,15 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Product_Category } from "./Product_Category";
+import { Products } from "./Products";
 
 @ObjectType()
 @Entity()
 export class Category extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
-  @OneToMany(
-    () => Product_Category,
-    (product_category) => product_category.category_id
-  )
-  category_id: Category;
+  @OneToMany(() => Products, (products) => products.category)
+  ID: Products;
 
   @Field()
   @Column({ unique: false })
