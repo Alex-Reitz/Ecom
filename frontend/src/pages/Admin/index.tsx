@@ -10,7 +10,7 @@ import { useAddProductMutation } from "../../generated/graphql";
 
 interface indexProps {}
 //Form that takes in information about a product, name, description, sku, category, inventory, price
-//Only admin can add a new product, make middleware to check isAdmin
+//Only admin can add a new product or add new category, make middleware to check isAdmin
 
 const Admin: React.FC<{}> = ({}) => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const Admin: React.FC<{}> = ({}) => {
   return (
     <Layout variant="small">
       <Formik
-        initialValues={{ name: "", description: "", price: 0, category: "" }}
+        initialValues={{ name: "", description: "", price: 0, category: 0 }}
         onSubmit={async (values) => {
           console.log(values);
           const response = await addProduct({
@@ -27,7 +27,7 @@ const Admin: React.FC<{}> = ({}) => {
               name: values.name,
               description: values.description,
               price: parseInt(values.price),
-              category: values.category,
+              category: parseInt(values.category),
             },
           });
           console.log(response);

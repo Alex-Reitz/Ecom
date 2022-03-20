@@ -8,6 +8,8 @@ class ProductInput {
   @Field()
   description: string;
   @Field()
+  category: number;
+  @Field()
   price: number;
 }
 
