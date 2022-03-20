@@ -17,6 +17,10 @@ export class Category extends BaseEntity {
   ID: Products;
 
   @Field()
+  @Column({ unique: true })
+  name!: string;
+
+  @Field()
   @Column({ unique: false })
   description!: string;
 }

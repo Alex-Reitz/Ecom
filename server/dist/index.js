@@ -19,6 +19,7 @@ const hello_1 = require("./resolvers/hello");
 const user_1 = require("./resolvers/user");
 const createUserLoader_1 = require("./utils/createUserLoader");
 const product_1 = require("./resolvers/product");
+const category_1 = require("./resolvers/category");
 const Products_1 = require("./entities/Products");
 const Category_1 = require("./entities/Category");
 const main = async () => {
@@ -37,7 +38,6 @@ const main = async () => {
     const RedisStore = (0, connect_redis_1.default)(express_session_1.default);
     const redis = new ioredis_1.default();
     app.use((0, cors_1.default)({
-        origin: "http://localhost:3000",
         credentials: true,
     }));
     app.use((0, express_session_1.default)({
@@ -58,7 +58,12 @@ const main = async () => {
     }));
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: await (0, type_graphql_1.buildSchema)({
-            resolvers: [hello_1.HelloResolver, user_1.UserResolver, product_1.productResolver],
+            resolvers: [
+                hello_1.HelloResolver,
+                user_1.UserResolver,
+                product_1.productResolver,
+                category_1.categoryResolver,
+            ],
             validate: false,
         }),
         context: ({ req, res }) => ({

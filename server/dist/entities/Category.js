@@ -23,6 +23,11 @@ __decorate([
 ], Category.prototype, "ID", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)({ unique: true }),
+    __metadata("design:type", String)
+], Category.prototype, "name", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: false }),
     __metadata("design:type", String)
 ], Category.prototype, "description", void 0);

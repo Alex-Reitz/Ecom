@@ -15,6 +15,18 @@ export type Scalars = {
   Float: number;
 };
 
+export type Category = {
+  __typename?: 'Category';
+  ID: Scalars['ID'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type CategoryInput = {
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -23,12 +35,18 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addCategory: Category;
   addProduct: Products;
   changePassword: UserResponse;
   forgotPassword: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+};
+
+
+export type MutationAddCategoryArgs = {
+  input: CategoryInput;
 };
 
 
@@ -61,11 +79,12 @@ export type MutationRegisterArgs = {
 export type ProductInput = {
   description: Scalars['String'];
   name: Scalars['String'];
-  price: Scalars['String'];
+  price: Scalars['Float'];
 };
 
 export type Products = {
   __typename?: 'Products';
+  category: Category;
   createdAt: Scalars['String'];
   description: Scalars['String'];
   id: Scalars['ID'];
@@ -76,6 +95,7 @@ export type Products = {
 
 export type Query = {
   __typename?: 'Query';
+  allCategories?: Maybe<Array<Category>>;
   allProducts?: Maybe<Array<Products>>;
   hello: Scalars['String'];
   me?: Maybe<User>;
@@ -108,6 +128,13 @@ export type RegularErrorFragment = { __typename?: 'FieldError', field: string, m
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
 
 export type RegularUserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, username: string } | null | undefined };
+
+export type AddCategoryMutationVariables = Exact<{
+  input: CategoryInput;
+}>;
+
+
+export type AddCategoryMutation = { __typename?: 'Mutation', addCategory: { __typename?: 'Category', name: string, description: string } };
 
 export type AddProductMutationVariables = Exact<{
   input: ProductInput;
@@ -151,6 +178,11 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, username: string } | null | undefined } };
 
+export type AllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllCategoriesQuery = { __typename?: 'Query', allCategories?: Array<{ __typename?: 'Category', ID: string, name: string, description: string }> | null | undefined };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -184,6 +216,18 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const AddCategoryDocument = gql`
+    mutation addCategory($input: CategoryInput!) {
+  addCategory(input: $input) {
+    name
+    description
+  }
+}
+    `;
+
+export function useAddCategoryMutation() {
+  return Urql.useMutation<AddCategoryMutation, AddCategoryMutationVariables>(AddCategoryDocument);
+};
 export const AddProductDocument = gql`
     mutation addProduct($input: ProductInput!) {
   addProduct(input: $input) {
@@ -247,6 +291,19 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const AllCategoriesDocument = gql`
+    query AllCategories {
+  allCategories {
+    ID
+    name
+    description
+  }
+}
+    `;
+
+export function useAllCategoriesQuery(options?: Omit<Urql.UseQueryArgs<AllCategoriesQueryVariables>, 'query'>) {
+  return Urql.useQuery<AllCategoriesQuery>({ query: AllCategoriesDocument, ...options });
 };
 export const MeDocument = gql`
     query Me {

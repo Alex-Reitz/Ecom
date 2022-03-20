@@ -14,6 +14,7 @@ import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
 import { createUserLoader } from "./utils/createUserLoader";
 import { productResolver } from "./resolvers/product";
+import { categoryResolver } from "./resolvers/category";
 import { Products } from "./entities/Products";
 import { Category } from "./entities/Category";
 
@@ -36,7 +37,7 @@ const main = async () => {
 
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      //origin: "http://localhost:3000",
       credentials: true,
     })
   );
@@ -62,7 +63,12 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver, productResolver],
+      resolvers: [
+        HelloResolver,
+        UserResolver,
+        productResolver,
+        categoryResolver,
+      ],
       validate: false,
     }),
     context: ({ req, res }) => ({

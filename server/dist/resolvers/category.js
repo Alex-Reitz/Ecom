@@ -12,50 +12,46 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.productResolver = void 0;
+exports.categoryResolver = void 0;
 const type_graphql_1 = require("type-graphql");
-const Products_1 = require("../entities/Products");
-let ProductInput = class ProductInput {
+const Category_1 = require("../entities/Category");
+let CategoryInput = class CategoryInput {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
-], ProductInput.prototype, "name", void 0);
+], CategoryInput.prototype, "name", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
-], ProductInput.prototype, "description", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
-], ProductInput.prototype, "price", void 0);
-ProductInput = __decorate([
+], CategoryInput.prototype, "description", void 0);
+CategoryInput = __decorate([
     (0, type_graphql_1.InputType)()
-], ProductInput);
-let productResolver = class productResolver {
-    async allProducts() {
-        return await Products_1.Products.find();
+], CategoryInput);
+let categoryResolver = class categoryResolver {
+    async allCategories() {
+        return await Category_1.Category.find();
     }
-    async addProduct(input) {
+    async addCategory(input) {
         console.log(input);
-        return Products_1.Products.create(Object.assign({}, input)).save();
+        return Category_1.Category.create(Object.assign({}, input)).save();
     }
 };
 __decorate([
-    (0, type_graphql_1.Query)(() => [Products_1.Products], { nullable: true }),
+    (0, type_graphql_1.Query)(() => [Category_1.Category], { nullable: true }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], productResolver.prototype, "allProducts", null);
+], categoryResolver.prototype, "allCategories", null);
 __decorate([
-    (0, type_graphql_1.Mutation)(() => Products_1.Products),
+    (0, type_graphql_1.Mutation)(() => Category_1.Category),
     __param(0, (0, type_graphql_1.Arg)("input")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [ProductInput]),
+    __metadata("design:paramtypes", [CategoryInput]),
     __metadata("design:returntype", Promise)
-], productResolver.prototype, "addProduct", null);
-productResolver = __decorate([
-    (0, type_graphql_1.Resolver)(Products_1.Products)
-], productResolver);
-exports.productResolver = productResolver;
-//# sourceMappingURL=product.js.map
+], categoryResolver.prototype, "addCategory", null);
+categoryResolver = __decorate([
+    (0, type_graphql_1.Resolver)(Category_1.Category)
+], categoryResolver);
+exports.categoryResolver = categoryResolver;
+//# sourceMappingURL=category.js.map
