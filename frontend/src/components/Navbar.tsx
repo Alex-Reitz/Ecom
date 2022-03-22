@@ -13,7 +13,11 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
-import { useMeQuery, useLogoutMutation } from "../generated/graphql";
+import {
+  useMeQuery,
+  useLogoutMutation,
+  useAllCategoriesQuery,
+} from "../generated/graphql";
 import { isServer } from "../utils/isServer";
 import { useRouter } from "next/router";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -24,6 +28,8 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
   const router = useRouter();
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
   const [{ data, fetching }] = useMeQuery({ pause: isServer() });
+  const [cat] = useAllCategoriesQuery();
+  console.log(cat.data?.allCategories);
   let body = null;
   if (fetching) {
     body = null;
@@ -100,14 +106,9 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
               Categories <ChevronDownIcon />
             </MenuButton>
             <MenuList bg="gray.200" p={0}>
-              <MenuItem borderRadius="md" _hover={{ bg: "#fff" }}>
-                Wired
-              </MenuItem>
-              <MenuItem _hover={{ bg: "#fff" }}>Wireless</MenuItem>
-              <MenuItem _hover={{ bg: "#fff" }}>Gaming</MenuItem>
-              <MenuItem borderRadius="md" _hover={{ bg: "#fff" }}>
-                Ergonomic
-              </MenuItem>
+              {cat.data?.allCategories.map((item) => (
+                <MenuItem _hover={{ bg: "#fff" }}>{item.name}</MenuItem>
+              ))}
             </MenuList>
           </Menu>
           <Menu>
