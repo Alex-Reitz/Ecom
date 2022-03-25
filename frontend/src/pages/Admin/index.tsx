@@ -1,4 +1,4 @@
-import { Box, Button, Select } from "@chakra-ui/react";
+import { Box, Button, Select, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
@@ -22,50 +22,77 @@ const Admin: React.FC<{}> = ({}) => {
   const [cat] = useAllCategoriesQuery();
 
   return (
-    <Layout variant="small">
-      <Formik
-        initialValues={{ name: "", description: "", price: 0, category: value }}
-        onSubmit={async (values) => {
-          console.log(values);
-          const response = await addProduct({
-            input: {
-              name: values.name,
-              description: values.description,
-              price: parseInt(values.price),
-              category: parseInt(value),
-            },
-          });
-          console.log(response);
-        }}
+    <Layout>
+      <Box
+        display={"flex"}
+        flexDirection="column"
+        alignItems="center"
+        width={"100%"}
       >
-        {({ isSubmitting }) => (
-          <Form>
-            <InputField name="name" placeholder="Name" label="Name" />
-            <Box mt={4}>
+        <Box>
+          <Text fontSize={22} display={"flex"} justifyContent={"center"}>
+            Add a Product
+          </Text>
+        </Box>
+        <Formik
+          initialValues={{
+            name: "",
+            description: "",
+            price: null,
+            category: value,
+          }}
+          onSubmit={async (values) => {
+            const response = await addProduct({
+              input: {
+                name: values.name,
+                description: values.description,
+                price: parseInt(values.price),
+                category: parseInt(value),
+              },
+            });
+            console.log(response);
+            router.push("/");
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
               <InputField
-                textarea
-                name="description"
-                placeholder="description..."
-                label="Description"
+                width={"40vw"}
+                name="name"
+                placeholder="Name"
+                label="Name"
               />
-              <Select onChange={(e) => setValue(e.target.value)} name="select">
-                {cat.data?.allCategories.map((item) => (
-                  <option value={item.ID}>{item.name}</option>
-                ))}
-              </Select>
-              <InputField name="price" label="Price" />
-            </Box>
-            <Button
-              mt={4}
-              type="submit"
-              isLoading={isSubmitting}
-              colorScheme={"teal"}
-            >
-              Add Product
-            </Button>
-          </Form>
-        )}
-      </Formik>
+              <Box mt={4}>
+                <InputField
+                  textarea
+                  name="description"
+                  placeholder="description..."
+                  label="Description"
+                />
+                <Select
+                  pt={2}
+                  pb={2}
+                  onChange={(e) => setValue(e.target.value)}
+                  name="select"
+                >
+                  {cat.data?.allCategories.map((item) => (
+                    <option value={item.ID}>{item.name}</option>
+                  ))}
+                </Select>
+                <InputField name="price" label="Price" />
+              </Box>
+              <Button
+                mt={4}
+                type="submit"
+                isLoading={isSubmitting}
+                colorScheme={"teal"}
+              >
+                Add Product
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </Box>
     </Layout>
   );
 };
