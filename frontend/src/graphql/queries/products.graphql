@@ -3,11 +3,6 @@ query AllProducts {
     id
     name
     description
-    category {
-      ID
-      name
-      description
-    }
     price
     createdAt
     updatedAt

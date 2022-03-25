@@ -17,7 +17,7 @@ class ProductInput {
 export class productResolver {
   @Query(() => [Products], { nullable: true })
   async allProducts() {
-    return await Products.find();
+    return await Products.find({ relations: ["category"] });
   }
 
   @Mutation(() => Products)

@@ -38,7 +38,7 @@ ProductInput = __decorate([
 ], ProductInput);
 let productResolver = class productResolver {
     async allProducts() {
-        return await Products_1.Products.find();
+        return await Products_1.Products.find({ relations: ["category"] });
     }
     async addProduct(input) {
         console.log(input);
