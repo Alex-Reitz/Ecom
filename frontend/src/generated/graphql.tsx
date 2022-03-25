@@ -77,6 +77,7 @@ export type MutationRegisterArgs = {
 };
 
 export type ProductInput = {
+  category: Scalars['Float'];
   description: Scalars['String'];
   name: Scalars['String'];
   price: Scalars['Float'];
@@ -191,7 +192,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: nu
 export type AllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllProductsQuery = { __typename?: 'Query', allProducts?: Array<{ __typename?: 'Products', id: string, name: string, description: string, price: number, createdAt: string, updatedAt: string }> | null | undefined };
+export type AllProductsQuery = { __typename?: 'Query', allProducts?: Array<{ __typename?: 'Products', id: string, name: string, description: string, price: number, createdAt: string, updatedAt: string, category: { __typename?: 'Category', ID: string, name: string, description: string } }> | null | undefined };
 
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
@@ -324,6 +325,11 @@ export const AllProductsDocument = gql`
     id
     name
     description
+    category {
+      ID
+      name
+      description
+    }
     price
     createdAt
     updatedAt
