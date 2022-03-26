@@ -105,7 +105,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
               Categories <ChevronDownIcon />
             </MenuButton>
             <MenuList bg="gray.200" p={0}>
-              {cat.data?.allCategories.map((item) => (
+              {cat?.data?.allCategories?.map((item) => (
                 <MenuItem _hover={{ bg: "#fff" }}>{item.name}</MenuItem>
               ))}
             </MenuList>

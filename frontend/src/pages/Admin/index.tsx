@@ -72,10 +72,11 @@ const Admin: React.FC<{}> = ({}) => {
                 <Select
                   pt={2}
                   pb={2}
+                  placeholder="Select Category"
                   onChange={(e) => setValue(e.target.value)}
                   name="select"
                 >
-                  {cat.data?.allCategories.map((item) => (
+                  {cat?.data?.allCategories?.map((item) => (
                     <option value={item.ID}>{item.name}</option>
                   ))}
                 </Select>

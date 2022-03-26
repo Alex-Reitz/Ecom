@@ -1,0 +1,6 @@
+mutation addBrand($input: BrandInput!) {
+  addCategory(input: $input) {
+    name
+    description
+  }
+}

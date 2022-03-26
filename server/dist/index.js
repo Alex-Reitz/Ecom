@@ -22,6 +22,8 @@ const product_1 = require("./resolvers/product");
 const category_1 = require("./resolvers/category");
 const Products_1 = require("./entities/Products");
 const Category_1 = require("./entities/Category");
+const Brand_1 = require("./entities/Brand");
+const brand_1 = require("./resolvers/brand");
 const main = async () => {
     const conn = await (0, typeorm_1.createConnection)({
         type: "postgres",
@@ -31,7 +33,7 @@ const main = async () => {
         logging: true,
         synchronize: true,
         migrations: [path_1.default.join(__dirname, "./migrations/*")],
-        entities: [User_1.User, Products_1.Products, Category_1.Category],
+        entities: [User_1.User, Products_1.Products, Category_1.Category, Brand_1.Brand],
     });
     await conn.runMigrations();
     const app = (0, express_1.default)();
@@ -64,6 +66,7 @@ const main = async () => {
                 user_1.UserResolver,
                 product_1.productResolver,
                 category_1.categoryResolver,
+                brand_1.BrandResolver,
             ],
             validate: false,
         }),

@@ -1,0 +1,26 @@
+import { Field, ID, ObjectType } from "type-graphql";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Products } from "./Products";
+
+@ObjectType()
+@Entity()
+export class Brand extends BaseEntity {
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
+  @OneToMany(() => Products, (products) => products.category)
+  ID: Products;
+
+  @Field()
+  @Column({ unique: true })
+  name!: string;
+
+  @Field()
+  @Column({ unique: false })
+  description!: string;
+}

@@ -13,6 +13,7 @@ exports.Products = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Category_1 = require("./Category");
+const Brand_1 = require("./Brand");
 let Products = class Products extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -40,6 +41,11 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => Category_1.Category, (category) => category.ID),
     __metadata("design:type", Category_1.Category)
 ], Products.prototype, "category", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.ManyToOne)(() => Brand_1.Brand, (brand) => brand.ID),
+    __metadata("design:type", Brand_1.Brand)
+], Products.prototype, "brand", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),

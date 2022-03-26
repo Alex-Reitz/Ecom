@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Category } from "./Category";
+import { Brand } from "./Brand";
 
 @ObjectType()
 @Entity()
@@ -32,6 +33,10 @@ export class Products extends BaseEntity {
   @Field()
   @ManyToOne(() => Category, (category) => category.ID)
   category: Category;
+
+  @Field()
+  @ManyToOne(() => Brand, (brand) => brand.ID)
+  brand: Brand;
 
   @Field(() => String)
   @CreateDateColumn()
