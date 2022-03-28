@@ -15,6 +15,18 @@ export type Scalars = {
   Float: number;
 };
 
+export type Brand = {
+  __typename?: 'Brand';
+  ID: Scalars['ID'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type BrandInput = {
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type Category = {
   __typename?: 'Category';
   ID: Scalars['ID'];
@@ -35,6 +47,7 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addBrand: Brand;
   addCategory: Category;
   addProduct: Products;
   changePassword: UserResponse;
@@ -42,6 +55,11 @@ export type Mutation = {
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+};
+
+
+export type MutationAddBrandArgs = {
+  input: BrandInput;
 };
 
 
@@ -85,6 +103,7 @@ export type ProductInput = {
 
 export type Products = {
   __typename?: 'Products';
+  brand: Brand;
   category: Category;
   createdAt: Scalars['String'];
   description: Scalars['String'];
@@ -96,6 +115,7 @@ export type Products = {
 
 export type Query = {
   __typename?: 'Query';
+  allBrands?: Maybe<Array<Brand>>;
   allCategories?: Maybe<Array<Category>>;
   allProducts?: Maybe<Array<Products>>;
   hello: Scalars['String'];
@@ -129,6 +149,13 @@ export type RegularErrorFragment = { __typename?: 'FieldError', field: string, m
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string };
 
 export type RegularUserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, username: string } | null | undefined };
+
+export type AddBrandMutationVariables = Exact<{
+  input: BrandInput;
+}>;
+
+
+export type AddBrandMutation = { __typename?: 'Mutation', addBrand: { __typename?: 'Brand', name: string, description: string } };
 
 export type AddCategoryMutationVariables = Exact<{
   input: CategoryInput;
@@ -179,6 +206,11 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, username: string } | null | undefined } };
 
+export type AllBrandsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllBrandsQuery = { __typename?: 'Query', allBrands?: Array<{ __typename?: 'Brand', ID: string, name: string, description: string }> | null | undefined };
+
 export type AllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -217,6 +249,18 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const AddBrandDocument = gql`
+    mutation addBrand($input: BrandInput!) {
+  addBrand(input: $input) {
+    name
+    description
+  }
+}
+    `;
+
+export function useAddBrandMutation() {
+  return Urql.useMutation<AddBrandMutation, AddBrandMutationVariables>(AddBrandDocument);
+};
 export const AddCategoryDocument = gql`
     mutation addCategory($input: CategoryInput!) {
   addCategory(input: $input) {
@@ -292,6 +336,19 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const AllBrandsDocument = gql`
+    query AllBrands {
+  allBrands {
+    ID
+    name
+    description
+  }
+}
+    `;
+
+export function useAllBrandsQuery(options?: Omit<Urql.UseQueryArgs<AllBrandsQueryVariables>, 'query'>) {
+  return Urql.useQuery<AllBrandsQuery>({ query: AllBrandsDocument, ...options });
 };
 export const AllCategoriesDocument = gql`
     query AllCategories {

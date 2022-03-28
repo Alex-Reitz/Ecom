@@ -106,7 +106,9 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
             </MenuButton>
             <MenuList bg="gray.200" p={0}>
               {cat?.data?.allCategories?.map((item) => (
-                <MenuItem _hover={{ bg: "#fff" }}>{item.name}</MenuItem>
+                <MenuItem key={item.ID} _hover={{ bg: "#fff" }}>
+                  {item.name}
+                </MenuItem>
               ))}
             </MenuList>
           </Menu>
@@ -141,13 +143,36 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
               </Link>
             </NextLink>
           </Box>
-          <Box>
-            <NextLink href="/Admin">
-              <Link>
-                <Text fontSize="1.1rem">Admin</Text>
-              </Link>
-            </NextLink>
-          </Box>
+          <Menu>
+            <MenuButton
+              px={4}
+              py={2}
+              transition="all 0.2s"
+              borderRadius="md"
+              borderWidth="1px"
+              _hover={{ bg: "gray.200" }}
+              _expanded={{ bg: "gray.200" }}
+              _focus={{ boxShadow: "outline" }}
+              fontSize="1rem"
+              borderColor="#000"
+            >
+              Admin <ChevronDownIcon />
+            </MenuButton>
+            <MenuList bg="gray.200" p={0}>
+              <NextLink href="Admin/product_admin">
+                <Link color="black">
+                  <MenuItem _hover={{ bg: "#fff" }}>Product Updates</MenuItem>
+                </Link>
+              </NextLink>
+              <NextLink href="Admin/brand_admin">
+                <Link color="black">
+                  <MenuItem borderRadius="md" _hover={{ bg: "#fff" }}>
+                    Brand Updates
+                  </MenuItem>
+                </Link>
+              </NextLink>
+            </MenuList>
+          </Menu>
           <Box>
             <Button
               onClick={async () => {

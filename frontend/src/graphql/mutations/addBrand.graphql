@@ -1,5 +1,5 @@
 mutation addBrand($input: BrandInput!) {
-  addCategory(input: $input) {
+  addBrand(input: $input) {
     name
     description
   }

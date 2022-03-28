@@ -3,19 +3,17 @@ import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
+import { InputField } from "../../../components/InputField";
+import { Layout } from "../../../components/Layout";
 import {
   useAddProductMutation,
   useAllCategoriesQuery,
-} from "../../generated/graphql";
-import { createUrqlClient } from "../../utils/createUrqlClient";
+} from "../../../generated/graphql";
+import { createUrqlClient } from "../../../utils/createUrqlClient";
 
 interface indexProps {}
-//Form that takes in information about a product, name, description, sku, category, inventory, price
-//Only admin can add a new product or add new category, make middleware to check isAdmin
 
-const Admin: React.FC<{}> = ({}) => {
+const ProductAdmin: React.FC<{}> = ({}) => {
   const router = useRouter();
   const [value, setValue] = useState(1);
   const [, addProduct] = useAddProductMutation();
@@ -98,4 +96,4 @@ const Admin: React.FC<{}> = ({}) => {
   );
 };
 
-export default withUrqlClient(createUrqlClient, { ssr: true })(Admin);
+export default withUrqlClient(createUrqlClient, { ssr: true })(ProductAdmin);

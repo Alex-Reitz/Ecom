@@ -1,5 +1,5 @@
 query AllBrands {
-  allCategories {
+  allBrands {
     ID
     name
     description
