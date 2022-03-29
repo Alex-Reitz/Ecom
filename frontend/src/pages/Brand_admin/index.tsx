@@ -3,10 +3,10 @@ import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React from "react";
-import { InputField } from "../../../components/InputField";
-import { Layout } from "../../../components/Layout";
-import { useAddBrandMutation } from "../../../generated/graphql";
-import { createUrqlClient } from "../../../utils/createUrqlClient";
+import { InputField } from "../../components/InputField";
+import { Layout } from "../../components/Layout";
+import { useAddBrandMutation } from "../../generated/graphql";
+import { createUrqlClient } from "../../utils/createUrqlClient";
 
 interface indexProps {}
 
@@ -40,6 +40,7 @@ const BrandAdmin: React.FC<{}> = ({}) => {
               },
             });
             console.log(response);
+            router.push("/");
           }}
         >
           {({ isSubmitting }) => (

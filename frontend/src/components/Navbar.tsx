@@ -17,6 +17,7 @@ import {
   useMeQuery,
   useLogoutMutation,
   useAllCategoriesQuery,
+  useAllBrandsQuery,
 } from "../generated/graphql";
 import { isServer } from "../utils/isServer";
 import { useRouter } from "next/router";
@@ -29,6 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
   const [{ data, fetching }] = useMeQuery({ pause: isServer() });
   const [cat] = useAllCategoriesQuery();
+  const [brands] = useAllBrandsQuery();
   let body = null;
   if (fetching) {
     body = null;
@@ -128,12 +130,11 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
               Brands <ChevronDownIcon />
             </MenuButton>
             <MenuList bg="gray.200" p={0}>
-              <MenuItem borderRadius="md" _hover={{ bg: "#fff" }}>
-                Keys+
-              </MenuItem>
-              <MenuItem borderRadius="md" _hover={{ bg: "#fff" }}>
-                Plasma Board
-              </MenuItem>
+              {brands?.data?.allBrands?.map((brand) => (
+                <MenuItem key={brand.ID} _hover={{ bg: "#fff" }}>
+                  {brand.name}
+                </MenuItem>
+              ))}
             </MenuList>
           </Menu>
           <Box>
@@ -159,18 +160,17 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
               Admin <ChevronDownIcon />
             </MenuButton>
             <MenuList bg="gray.200" p={0}>
-              <NextLink href="Admin/product_admin">
-                <Link color="black">
-                  <MenuItem _hover={{ bg: "#fff" }}>Product Updates</MenuItem>
-                </Link>
-              </NextLink>
-              <NextLink href="Admin/brand_admin">
-                <Link color="black">
-                  <MenuItem borderRadius="md" _hover={{ bg: "#fff" }}>
-                    Brand Updates
-                  </MenuItem>
-                </Link>
-              </NextLink>
+              <Link href="Product_admin" color="black">
+                <MenuItem _hover={{ bg: "#fff" }}>Product Updates</MenuItem>
+              </Link>
+              <Link href="Brand_admin" color="black">
+                <MenuItem borderRadius="md" _hover={{ bg: "#fff" }}>
+                  Brand Updates
+                </MenuItem>
+              </Link>
+              <Link href="Category_admin" color="black">
+                <MenuItem _hover={{ bg: "#fff" }}>Category Updates</MenuItem>
+              </Link>
             </MenuList>
           </Menu>
           <Box>

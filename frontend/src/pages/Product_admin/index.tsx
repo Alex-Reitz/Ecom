@@ -3,14 +3,14 @@ import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { InputField } from "../../../components/InputField";
-import { Layout } from "../../../components/Layout";
+import { InputField } from "../../components/InputField";
+import { Layout } from "../../components/Layout";
 import {
   useAddProductMutation,
   useAllBrandsQuery,
   useAllCategoriesQuery,
-} from "../../../generated/graphql";
-import { createUrqlClient } from "../../../utils/createUrqlClient";
+} from "../../generated/graphql";
+import { createUrqlClient } from "../../utils/createUrqlClient";
 
 interface indexProps {}
 
