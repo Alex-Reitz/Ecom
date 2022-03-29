@@ -32,13 +32,17 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", Number)
+], ProductInput.prototype, "brand", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
 ], ProductInput.prototype, "price", void 0);
 ProductInput = __decorate([
     (0, type_graphql_1.InputType)()
 ], ProductInput);
 let productResolver = class productResolver {
     async allProducts() {
-        return await Products_1.Products.find({ relations: ["category"] });
+        return await Products_1.Products.find({ relations: ["category", "brand"] });
     }
     async addProduct(input) {
         console.log(input);

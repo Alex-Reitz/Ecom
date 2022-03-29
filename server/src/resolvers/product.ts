@@ -10,6 +10,8 @@ class ProductInput {
   @Field()
   category: number;
   @Field()
+  brand: number;
+  @Field()
   price: number;
 }
 
@@ -17,7 +19,7 @@ class ProductInput {
 export class productResolver {
   @Query(() => [Products], { nullable: true })
   async allProducts() {
-    return await Products.find({ relations: ["category"] });
+    return await Products.find({ relations: ["category", "brand"] });
   }
 
   @Mutation(() => Products)

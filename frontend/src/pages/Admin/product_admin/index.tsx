@@ -7,6 +7,7 @@ import { InputField } from "../../../components/InputField";
 import { Layout } from "../../../components/Layout";
 import {
   useAddProductMutation,
+  useAllBrandsQuery,
   useAllCategoriesQuery,
 } from "../../../generated/graphql";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
@@ -15,10 +16,11 @@ interface indexProps {}
 
 const ProductAdmin: React.FC<{}> = ({}) => {
   const router = useRouter();
-  const [value, setValue] = useState(1);
+  const [category, setCategory] = useState(1);
+  const [brand, setBrand] = useState(1);
   const [, addProduct] = useAddProductMutation();
   const [cat] = useAllCategoriesQuery();
-
+  const [brands] = useAllBrandsQuery();
   return (
     <Layout>
       <Box
@@ -36,8 +38,9 @@ const ProductAdmin: React.FC<{}> = ({}) => {
           initialValues={{
             name: "",
             description: "",
-            price: null,
-            category: value,
+            price: 0,
+            category: category,
+            brand: brand,
           }}
           onSubmit={async (values) => {
             const response = await addProduct({
@@ -45,11 +48,11 @@ const ProductAdmin: React.FC<{}> = ({}) => {
                 name: values.name,
                 description: values.description,
                 price: parseInt(values.price),
-                category: parseInt(value),
+                category: parseInt(category),
+                brand: parseInt(brand),
               },
             });
-            console.log(response);
-            router.push("/");
+            console.log(values, response);
           }}
         >
           {({ isSubmitting }) => (
@@ -71,11 +74,26 @@ const ProductAdmin: React.FC<{}> = ({}) => {
                   pt={2}
                   pb={2}
                   placeholder="Select Category"
-                  onChange={(e) => setValue(e.target.value)}
-                  name="select"
+                  onChange={(e) => setCategory(parseInt(e.target.value))}
+                  name="category"
                 >
-                  {cat?.data?.allCategories?.map((item) => (
-                    <option value={item.ID}>{item.name}</option>
+                  {cat?.data?.allCategories?.map((cat) => (
+                    <option key={cat.ID} value={cat.ID}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  pt={2}
+                  pb={2}
+                  placeholder="Select Brand"
+                  onChange={(e) => setBrand(e.target.value)}
+                  name="brand"
+                >
+                  {brands?.data?.allBrands?.map((brand) => (
+                    <option key={brand.ID} value={brand.ID}>
+                      {brand.name}
+                    </option>
                   ))}
                 </Select>
                 <InputField name="price" label="Price" />
