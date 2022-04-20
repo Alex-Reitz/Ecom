@@ -95,6 +95,7 @@ export type MutationRegisterArgs = {
 };
 
 export type ProductInput = {
+  brand: Scalars['Float'];
   category: Scalars['Float'];
   description: Scalars['String'];
   name: Scalars['String'];
@@ -120,6 +121,12 @@ export type Query = {
   allProducts?: Maybe<Array<Products>>;
   hello: Scalars['String'];
   me?: Maybe<User>;
+  product?: Maybe<Products>;
+};
+
+
+export type QueryProductArgs = {
+  id: Scalars['Int'];
 };
 
 export type User = {
@@ -220,6 +227,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, isAdmin: boolean } | null | undefined };
+
+export type GetProductQueryVariables = Exact<{
+  productId: Scalars['Int'];
+}>;
+
+
+export type GetProductQuery = { __typename?: 'Query', product?: { __typename?: 'Products', id: string, name: string, description: string, price: number, category: { __typename?: 'Category', ID: string, name: string, description: string }, brand: { __typename?: 'Brand', ID: string, name: string, description: string } } | null | undefined };
 
 export type AllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -375,6 +389,30 @@ export const MeDocument = gql`
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const GetProductDocument = gql`
+    query getProduct($productId: Int!) {
+  product(id: $productId) {
+    id
+    name
+    description
+    price
+    category {
+      ID
+      name
+      description
+    }
+    brand {
+      ID
+      name
+      description
+    }
+  }
+}
+    `;
+
+export function useGetProductQuery(options: Omit<Urql.UseQueryArgs<GetProductQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetProductQuery>({ query: GetProductDocument, ...options });
 };
 export const AllProductsDocument = gql`
     query AllProducts {

@@ -1,4 +1,14 @@
-import { Arg, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { isAdmin } from "../middleware/isAdmin";
+import {
+  Arg,
+  Field,
+  InputType,
+  Mutation,
+  Query,
+  Resolver,
+  UseMiddleware,
+  Int,
+} from "type-graphql";
 import { Products } from "../entities/Products";
 
 @InputType()
@@ -23,10 +33,15 @@ export class productResolver {
   }
 
   @Mutation(() => Products)
+  @UseMiddleware(isAdmin)
   async addProduct(@Arg("input") input: ProductInput): Promise<Products> {
-    console.log(input);
     return Products.create({
       ...input,
     }).save();
+  }
+
+  @Query(() => Products, { nullable: true })
+  product(@Arg("id", () => Int) id: number): Promise<Products | undefined> {
+    return Products.findOne(id, { relations: ["category", "brand"] });
   }
 }
