@@ -49,6 +49,7 @@ let productResolver = class productResolver {
         return Products_1.Products.create(Object.assign({}, input)).save();
     }
     product(id) {
+        console.log("Here is the product", Products_1.Products.findOne(id, { relations: ["category", "brand"] }));
         return Products_1.Products.findOne(id, { relations: ["category", "brand"] });
     }
 };

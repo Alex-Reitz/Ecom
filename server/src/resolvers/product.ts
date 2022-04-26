@@ -42,6 +42,10 @@ export class productResolver {
 
   @Query(() => Products, { nullable: true })
   product(@Arg("id", () => Int) id: number): Promise<Products | undefined> {
+    console.log(
+      "Here is the product",
+      Products.findOne(id, { relations: ["category", "brand"] })
+    );
     return Products.findOne(id, { relations: ["category", "brand"] });
   }
 }

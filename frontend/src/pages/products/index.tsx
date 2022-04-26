@@ -20,7 +20,6 @@ interface indexProps {}
 
 const Products: React.FC<indexProps> = ({}) => {
   const [{ data }] = useAllProductsQuery();
-
   return (
     <Layout variant="small">
       <Grid templateColumns="repeat(5, 1fr)" gap={6} width={"99vw"}>
