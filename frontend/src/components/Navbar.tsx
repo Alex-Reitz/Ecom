@@ -131,9 +131,14 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
             </MenuButton>
             <MenuList bg="gray.200" p={0}>
               {brands?.data?.allBrands?.map((brand) => (
-                <MenuItem key={brand.ID} _hover={{ bg: "#fff" }}>
-                  {brand.name}
-                </MenuItem>
+                <Link
+                  href={`/brands/${encodeURIComponent(brand.name)}`}
+                  color="black"
+                >
+                  <MenuItem key={brand.ID} _hover={{ bg: "#fff" }}>
+                    {brand.name}
+                  </MenuItem>
+                </Link>
               ))}
             </MenuList>
           </Menu>
