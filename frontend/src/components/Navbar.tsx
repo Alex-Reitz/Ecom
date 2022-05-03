@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Divider,
   Flex,
   Heading,
   Input,
@@ -22,6 +23,8 @@ import {
 import { isServer } from "../utils/isServer";
 import { useRouter } from "next/router";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import Image from "next/image";
+import logo from "../Images/logo.png";
 
 interface NavbarProps {}
 
@@ -49,19 +52,38 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
     );
   } else {
     body = (
-      <Flex align="center" background="white" borderRadius={20}>
-        <Input zIndex={0} placeholder="Search Products" />
+      <Flex align="center" background="white" borderRadius={10}>
+        <Input
+          color="#000"
+          zIndex={0}
+          placeholder="Search Products"
+          width={"300px"}
+          p={2}
+        />
       </Flex>
     );
   }
 
   return (
     <>
-      <Flex zIndex={1} position="sticky" bg="#000" p={2}>
+      <Flex zIndex={1} position="sticky" bg="#fff" p={4}>
         <Flex flex={1} m="auto" align="center" maxW="95%">
           <NextLink href="/">
             <Link>
-              <Heading color="white" fontSize="2rem" fontStyle={"italic"}>
+              <Heading
+                display={"flex"}
+                alignItems={"center"}
+                color="#000"
+                fontSize="2rem"
+                fontStyle={"italic"}
+                p={1}
+              >
+                <Image
+                  src={logo}
+                  alt="keyboard logo"
+                  height={"40px"}
+                  width={"40px"}
+                />
                 KeyBoard Warrior
               </Heading>
             </Link>
@@ -69,6 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
           <Box ml={"auto"}>{body}</Box>
         </Flex>
       </Flex>
+      <Divider />
       <Flex zIndex={1} position="sticky" top={0} bg="#FFF" p={3}>
         <Flex
           justify="space-between"
