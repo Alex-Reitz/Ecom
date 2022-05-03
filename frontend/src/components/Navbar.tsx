@@ -1,3 +1,4 @@
+import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -5,6 +6,8 @@ import {
   Flex,
   Heading,
   Input,
+  InputGroup,
+  InputRightElement,
   Link,
   Menu,
   MenuButton,
@@ -12,19 +15,18 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
-import NextLink from "next/link";
-import {
-  useMeQuery,
-  useLogoutMutation,
-  useAllCategoriesQuery,
-  useAllBrandsQuery,
-} from "../generated/graphql";
-import { isServer } from "../utils/isServer";
-import { useRouter } from "next/router";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import Image from "next/image";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
+import {
+  useAllBrandsQuery,
+  useAllCategoriesQuery,
+  useLogoutMutation,
+  useMeQuery,
+} from "../generated/graphql";
 import logo from "../Images/logo.png";
+import { isServer } from "../utils/isServer";
 
 interface NavbarProps {}
 
@@ -53,13 +55,17 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
   } else {
     body = (
       <Flex align="center" background="white" borderRadius={10}>
-        <Input
-          color="#000"
-          zIndex={0}
-          placeholder="Search Products"
-          width={"300px"}
-          p={2}
-        />
+        <InputGroup size="md">
+          <InputRightElement pointerEvents="none" children={<SearchIcon />} />
+          <Input
+            color="#000"
+            zIndex={0}
+            _placeholder={{ color: "black" }}
+            placeholder="Search Products"
+            width={"300px"}
+            p={2}
+          />
+        </InputGroup>
       </Flex>
     );
   }
@@ -91,7 +97,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
           <Box ml={"auto"}>{body}</Box>
         </Flex>
       </Flex>
-      <Divider />
+      <Divider borderColor="#000" />
       <Flex zIndex={1} position="sticky" top={0} bg="#FFF" p={3}>
         <Flex
           justify="space-between"
@@ -168,7 +174,9 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
           <Box>
             <NextLink href="/cart">
               <Link>
-                <Text fontSize="1.1rem">Cart</Text>
+                <Text fontSize="1.1rem">
+                  Cart<i class="fas fa-shopping-cart"></i>
+                </Text>
               </Link>
             </NextLink>
           </Box>
@@ -218,6 +226,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
           </Box>
         </Flex>
       </Flex>
+      <Divider margin="auto" maxW="55%" borderColor="#000" />
     </>
   );
 };
