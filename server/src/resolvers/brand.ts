@@ -1,4 +1,12 @@
-import { Arg, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Field,
+  InputType,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { Brand } from "../entities/Brand";
 
 @InputType()
@@ -21,5 +29,11 @@ export class BrandResolver {
     return Brand.create({
       ...input,
     }).save();
+  }
+
+  @Query(() => Brand, { nullable: true })
+  async brand(@Arg("id", () => Int) id: number): Promise<Brand | undefined> {
+    console.log("Here is the brand", await Brand.findOne(id));
+    return await Brand.findOne(id);
   }
 }

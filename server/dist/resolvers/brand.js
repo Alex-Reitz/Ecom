@@ -35,6 +35,10 @@ let BrandResolver = class BrandResolver {
     async addBrand(input) {
         return Brand_1.Brand.create(Object.assign({}, input)).save();
     }
+    async brand(id) {
+        console.log("Here is the brand", await Brand_1.Brand.findOne(id));
+        return await Brand_1.Brand.findOne(id);
+    }
 };
 __decorate([
     (0, type_graphql_1.Query)(() => [Brand_1.Brand], { nullable: true }),
@@ -49,6 +53,13 @@ __decorate([
     __metadata("design:paramtypes", [BrandInput]),
     __metadata("design:returntype", Promise)
 ], BrandResolver.prototype, "addBrand", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => Brand_1.Brand, { nullable: true }),
+    __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], BrandResolver.prototype, "brand", null);
 BrandResolver = __decorate([
     (0, type_graphql_1.Resolver)(Brand_1.Brand)
 ], BrandResolver);
