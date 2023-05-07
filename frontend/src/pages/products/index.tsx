@@ -29,7 +29,7 @@ const Products: React.FC<indexProps> = ({}) => {
           </Box>
         ) : (
           data.allProducts?.map((p) => (
-            <GridItem w="100%" p={3}>
+            <GridItem w="100%" p={3} key={p.id}>
               <NextLink href="/Product/id" as={`/Product/${p.id}`}>
                 <Center _hover={{ cursor: "pointer" }} py={12}>
                   <Box

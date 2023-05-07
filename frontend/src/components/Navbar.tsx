@@ -136,10 +136,16 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
               Categories <ChevronDownIcon />
             </MenuButton>
             <MenuList bg="gray.200" p={0}>
-              {cat?.data?.allCategories?.map((item) => (
-                <MenuItem key={item.ID} _hover={{ bg: "#fff" }}>
-                  {item.name}
-                </MenuItem>
+              {cat?.data?.allCategories?.map((category) => (
+                <Link
+                  key={category.ID}
+                  href={`/brands/${encodeURIComponent(category.name)}`}
+                  color="black"
+                >
+                  <MenuItem key={category.ID} _hover={{ bg: "#fff" }}>
+                    {category.name}
+                  </MenuItem>
+                </Link>
               ))}
             </MenuList>
           </Menu>
@@ -161,6 +167,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
             <MenuList bg="gray.200" p={0}>
               {brands?.data?.allBrands?.map((brand) => (
                 <Link
+                  key={brand.ID}
                   href={`/brands/${encodeURIComponent(brand.name)}`}
                   color="black"
                 >
@@ -175,7 +182,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
             <NextLink href="/cart">
               <Link>
                 <Text fontSize="1.1rem">
-                  Cart<i class="fas fa-shopping-cart"></i>
+                  Cart<i className="fas fa-shopping-cart"></i>
                 </Text>
               </Link>
             </NextLink>

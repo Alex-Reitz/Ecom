@@ -6,10 +6,9 @@ import { useGetProductFromUrl } from "../../utils/useGetProductFromUrl";
 
 const Product = ({}) => {
   const [{ data, error, loading }] = useGetProductFromUrl();
-  console.log(data);
   if (loading) {
     <Layout>
-      <div>Loading</div>
+      <div>Loading...</div>
     </Layout>;
   }
 
